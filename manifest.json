@@ -1,0 +1,58 @@
+{
+  "manifest_version": 2,
+  "name": "Hack-mate",
+  "version": "1.0",
+  "description": "Hack-mate is a Firefox extension designed to assist penetration testers and security researchers in their work. It provides a suite of tools and features to enhance the efficiency and effectiveness of security assessments (level: OSCP).",
+  "browser_specific_settings": {
+    "gecko": {
+      "data_collection_permissions": {
+        "required": [
+          "none"
+        ]
+      }
+    }
+  },
+  "icons": {
+    "48": "assets/icons/48x48-logo.png"
+  },
+  "browser_action": {
+    "default_icon": "assets/icons/48x48-logo.png",
+    "default_title": "Hack-mate",
+    "default_popup": "index.html"
+  },
+  "permissions": [
+    "tabs",
+    "cookies",
+    "activeTab",
+    "storage",
+    "webNavigation",
+    "webRequest",
+    "webRequestBlocking",
+    "<all_urls>"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "assets/js/content-scripts/content-script.js",
+        "assets/js/content-scripts/content-utility-methods.js",
+        "assets/js/content-scripts/monitor-script.js",
+        "assets/js/content-scripts/logo_terminal/harlem-shake.js",
+        "assets/js/content-scripts/logo_terminal/rewrite.js",
+        "assets/js/content-scripts/obfuscation/javascript-obfuscator.js",
+        "assets/js/content-scripts/obfuscation/javascript-obfuscator-minimal-chars.js"
+      ]
+    }
+  ],
+  "background": {
+    "scripts": [
+      "assets/js/background-scripts/background.js"
+    ]
+  },
+  "web_accessible_resources": [
+    "assets/icons/logo.png"
+  ],
+  "content_security_policy": "script-src 'self'; object-src 'self'"
+}

@@ -1,0 +1,2618 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Hack-mate</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link href="assets/css/libs/bootstrap.min.css" rel="stylesheet"/>
+    <link href="assets/css/libs/virtual-select.min.css" rel="stylesheet"/>
+
+    <!-- classes START -->
+    <script src="assets/js/tabs/classes/builder/CheckList.js"></script>
+    <script src="assets/js/tabs/classes/builder/UsefulCommandList.js"></script>
+    <script src="assets/js/tabs/classes/builder/ResourceList.js"></script>
+    <script src="assets/js/tabs/classes/builder/elements/CheckBox.js"></script>
+    <script src="assets/js/tabs/classes/builder/elements/CodeElement.js"></script>
+    <script src="assets/js/tabs/classes/builder/elements/TextArea.js"></script>
+    <script src="assets/js/tabs/classes/builder/elements/Modal.js"></script>
+    <script src="assets/js/tabs/classes/builder/elements/AnchorTag.js"></script>
+
+    <script src="assets/js/tabs/classes/EncoderDecoder.js"></script>
+    <script src="assets/js/tabs/classes/Hashing.js"></script>
+    <script src="assets/js/tabs/classes/Formatter.js"></script>
+    <!-- classes END -->
+
+    <!-- libs import START -->
+    <script src="assets/js/libs/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/libs/jquery.js"></script>
+    <script src="assets/js/libs/crypto.min.js"></script>
+    <script src="assets/js/libs/bcrypt.min.js"></script>
+    <script src="assets/js/libs/md4.min.js"></script>
+    <script src="assets/js/libs/html2canvas.js"></script>
+    <script src="assets/js/libs/virtual-select.min.js"></script>
+    <script src="assets/js/tabs/logo_modal/terminal.js"></script>
+    <script src="assets/js/tabs/logo_modal/pentest_parameters.js"></script>
+
+    <script src="assets/js/libs/formatting/beautify-min.js"></script>
+    <script src="assets/js/libs/formatting/beautify-html-min.js"></script>
+    <script src="assets/js/libs/formatting/beautify-css-min.js"></script>
+    <!-- libs import END -->
+
+    <!-- hightlightjs START -->
+    <link rel="stylesheet" href="assets/js/libs/highlightjs/styles/github-dark.css">
+    <script src="assets/js/libs/highlightjs/highlight.min.js"></script>
+    <script src="assets/js/libs/highlightjs/highlightjs-line-numbers.js"></script>
+    <!-- hightlightjs END -->
+
+    <!-- overwrite bootstrap default settings -->
+    <style>
+        .nav-link, nav-link:focus, .nav-link:hover {
+            color: transparent !important;
+            background-color: transparent !important;
+            /*border: transparent !important;*/
+            outline: none !important;
+            box-shadow: none !important;
+            border-radius: 2px !important;
+        }
+
+        .ef-initial-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            height: 140px;
+            font-family: consolas, monospace;
+            color: #484f58;
+            font-size: 11px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .ef-spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #3e3e42;
+            border-top-color: #007acc;
+            border-radius: 50%;
+            animation: ef-spin 0.7s linear infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes ef-spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+<div class="container-custom" style="overflow-x: hidden">
+    <div class="row h-100">
+        <div class="d-flex">
+
+            <!-- start navbar -->
+            <div class="h-100 bg-code-4 col-1 pt-1 d-flex justify-content-between flex-column" id="navbar-start">
+
+                <!-- start tab navigation -->
+                <div class="d-flex justify-content-between flex-column nav nav-pills h-100" id="navbar">
+
+                    <!-- logo start -->
+                    <div class="mx-auto" data-bs-toggle="modal" data-bs-target="#pentest-parameters-modal">
+                        <a href="#" data-bs-toggle="tooltip" data-bs-title="Hack-mate home">
+                            <img id="hack-mate-logo" src="assets/icons/logo.png" alt="hack-mate logo" width="60px"
+                                 height="50px">
+                        </a>
+                    </div>
+                    <!-- logo end -->
+
+                    <div class="w-100">
+                        <!-- tab 1 - tools -->
+                        <div class="mb-2 text-center w-100">
+                            <a href="#tab1"
+                               class="nav-link show w-100 d-flex justify-content-center"
+                               data-bs-toggle="tab">
+                                <img id="tab-1-img" data-bs-toggle="tooltip" data-bs-placement="top"
+                                     title="General tooling" src="assets/icons/navbar/tab-1-gen-tooling.png"
+                                     width="25px"
+                                     height="25px;">
+                            </a>
+                        </div>
+                        <!-- tab 2 - enum tools -->
+                        <div class="mb-2 text-center w-100">
+                            <a href="#tab2" class="nav-link w-100 d-flex justify-content-center"
+                               data-bs-toggle="tab">
+                                <img id="tab-2-img" data-bs-toggle="tooltip" data-bs-placement="top"
+                                     title="Enumeration tooling" src="assets/icons/navbar/tab-2-enum-tooling.png"
+                                     width="25px" height="25px;">
+                            </a>
+                        </div>
+                        <!-- tab 3 - exploit assistant -->
+                        <div class="mb-2 text-center w-100">
+                            <a href="#tab3" class="nav-link w-100 d-flex justify-content-center"
+                               data-bs-toggle="tab">
+                                <img id="tab-3-img" data-bs-toggle="tooltip" data-bs-placement="top"
+                                     title="Exploit assistant" src="assets/icons/navbar/tab-3-exploit-assistant.png"
+                                     width="25px" height="25px;">
+                            </a>
+                        </div>
+                        <!-- tab 4 - shell assistant -->
+                        <div class="mb-2 text-center w-100">
+                            <a href="#tab4" class="nav-link text-custom-dark-blue w-100 d-flex justify-content-center"
+                               data-bs-toggle="tab">
+                                <img id="tab-4-img" data-bs-toggle="tooltip" data-bs-placement="top"
+                                     title="Shell assistant" src="assets/icons/navbar/tab-4-shell-assistant.png"
+                                     width="25px" height="25px;">
+                            </a>
+                        </div>
+                        <!-- tab 5 - checklist assistant -->
+                        <div class="mb-2 text-center w-100">
+                            <a href="#tab5" class="nav-link text-custom-dark-blue w-100 d-flex justify-content-center"
+                               data-bs-toggle="tab">
+                                <img id="tab-5-img" data-bs-toggle="tooltip" data-bs-placement="top"
+                                     title="Checklist assistant" src="assets/icons/navbar/tab-5-checklist-assistant.png"
+                                     width="28px" height="28px">
+                            </a>
+                        </div>
+                        <!-- tab 6 - useful commands -->
+                        <div class="mb-2 text-center w-100">
+                            <a href="#tab6" class="nav-link text-custom-dark-blue w-100 d-flex justify-content-center"
+                               data-bs-toggle="tab">
+                                <img id="tab-6-img" data-bs-toggle="tooltip" data-bs-placement="top"
+                                     title="Useful commands" src="assets/icons/navbar/tab-6-useful-commands.png"
+                                     width="26px" height="26px;">
+                            </a>
+                        </div>
+                    </div>
+                    <!-- tab 6 - useful commands end -->
+
+                    <div class="w-100 mb-2">
+                        <!-- tab 7 nav START -->
+                        <div class="mb-2 text-center w-100">
+                            <a href="#tab7" class="nav-link text-custom-dark-blue w-100 d-flex justify-content-center"
+                               data-bs-toggle="tab">
+                                <img id="tab-7-img" data-bs-toggle="tooltip"
+                                     data-bs-placement="top" title="Resources"
+                                     src="assets/icons/navbar/tab-7-resources.png" width="25px" height="25px;">
+                            </a>
+                        </div>
+                        <!-- tab 7 nav END -->
+                        <div class="form-check form-switch d-flex justify-content-center">
+                            <input class="form-check-input border-vscode-blue-bottom bg" type="checkbox" role="switch"
+                                   id="persist-data-checkbox"
+                                   data-bs-toggle="tooltip" data-bs-placement="right"
+                                   title="Persist data on this plugin">
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <img class="d-none" src="assets/icons/loader.gif" width="40px" height="40px" id="loader"
+                                 data-bs-toggle="tooltip" data-bs-placement="right"
+                                 title="Loader, this loader shows up whenever an process is still running">
+                        </div>
+                    </div>
+                </div>
+                <!-- end tab navigation -->
+
+            </div>
+            <!-- end navbar -->
+
+            <!-- main content START -->
+            <div id="tab-container-general" class="col-11 p-2 tab-content h-100 rounded"
+                 style="overflow-y: scroll;">
+                <!-- tab 1 (tooling) START-->
+                <div class="tab-pane fade" id="tab1">
+
+                    <!-- Nested tabs for Tools START -->
+                    <ul class="nav nav-tabs border-vscode-blue-bottom bg-code-4" id="toolsTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="general-tooling-encode-decode" data-bs-toggle="tab"
+                               href="#encode_decode" role="tab">
+                                <img data-bs-toggle="tooltip" data-bs-placement="right" title="Encoding & decoding"
+                                     src="assets/icons/navbar/tab-1-gen-tooling/encode_decode.png" width="25px"
+                                     height="25px;">
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="general-tooling-hash-tab" data-bs-toggle="tab" href="#hashing"
+                               role="tab">
+                                <img data-bs-toggle="tooltip" data-bs-placement="right"
+                                     title="Hash generator"
+                                     src="assets/icons/navbar/tab-1-gen-tooling/hashing.png" width="25px"
+                                     height="25px;">
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="general-tooling-code-obfuscation" data-bs-toggle="tab"
+                               href="#general-tooling-code-obfuscation-content" role="tab">
+                                <img data-bs-toggle="tooltip" data-bs-placement="right" title="Code obfuscation"
+                                     src="assets/icons/navbar/tab-1-gen-tooling/code-obfuscation.png" width="25px"
+                                     height="25px;">
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="general-tooling-json-formatter" data-bs-toggle="tab"
+                               href="#formatter" role="tab">
+                                <img data-bs-toggle="tooltip" data-bs-placement="right" title="Code formatter"
+                                     src="assets/icons/navbar/tab-1-gen-tooling/formatter.png" width="25px"
+                                     height="25px;">
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="general-tooling-code-highlighter" data-bs-toggle="tab"
+                               href="#general-tooling-code-highlighter-content" role="tab">
+                                <img data-bs-toggle="tooltip" data-bs-placement="right" title="Code Highlighter"
+                                     src="assets/icons/navbar/tab-1-gen-tooling/code-highlighting.png" width="25px"
+                                     height="25px;">
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- Nested tabs for Tools END -->
+
+                    <!-- tab 1 content START -->
+                    <div class="tab-content" id="toolsTabContent">
+
+                        <!-- Encoding/ decoding tab START -->
+                        <div class="tab-pane fade show active" id="encode_decode" role="tabpanel"
+                             style="height: 485px">
+
+                            <div class="d-flex flex-column justify-content-between container-l1-custom">
+                                <div class="mt-2 mb-2">
+                                    <h4> Encoding/ Decoding </h4>
+                                </div>
+                                <div>
+                                    <div class="form-group mb-2">
+                                        <label for="encoding-select-technique">Algorithm</label>
+                                        <select class="form-select" id="encoding-select-technique">
+                                            <optgroup label="Base64">
+                                                <option value="b64-e" selected>Base64 Encode</option>
+                                                <option value="b64-d">Base64 Decode</option>
+                                                <option value="b64-e-utf16le">Base64 Encode (UTF-16LE / PowerShell)
+                                                </option>
+                                                <option value="b64-d-utf16le">Base64 Decode (UTF-16LE / PowerShell)
+                                                </option>
+                                            </optgroup>
+                                            <optgroup label="URL">
+                                                <option value="uri-e">URL Encode</option>
+                                                <option value="uri-d">URL Decode</option>
+                                            </optgroup>
+                                            <optgroup label="JavaScript Escaping">
+                                                <option value="unicode-e">Unicode Escape (\u0041)</option>
+                                                <option value="unicode-d">Unicode Unescape</option>
+                                                <option value="hexjs-e">Hex Escape (\x41)</option>
+                                                <option value="hexjs-d">Hex Unescape</option>
+                                            </optgroup>
+                                            <optgroup label="HTML Entities">
+                                                <option value="html-e">Named Entities (&amp;lt; &amp;amp;)</option>
+                                                <option value="html-d">Named Entities Decode</option>
+                                                <option value="decimal-e">Decimal Entities (&amp;#65;)</option>
+                                                <option value="decimal-d">Decimal Entities Decode</option>
+                                                <option value="hex-e">Hex Entities (&amp;#x41;)</option>
+                                                <option value="hex-d">Hex Entities Decode</option>
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <span>Input</span>
+                                    <div class="position-relative d-flex">
+                            <textarea id="encoding-decoding-input-textarea" class="form-control"
+                                      rows="6" style="width: 100%; padding-right: 40px;"></textarea>
+                                        <a href="#">
+                                            <img class="copy-icon" src="assets/icons/general/copy.png"
+                                                 style="position: absolute; bottom: 5px; right: 5px;" height="25px"
+                                                 width="25px" alt="Copy">
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <span>Output</span>
+                                    <div class="position-relative d-flex">
+                            <textarea id="encoding-decoding-output-textarea" readonly
+                                      class="form-control" rows="6"
+                                      style="width: 100%; padding-right: 40px;"></textarea>
+                                        <a href="#">
+                                            <img class="copy-icon" src="assets/icons/general/copy.png"
+                                                 style="position: absolute; bottom: 5px; right: 5px;" height="25px"
+                                                 width="25px" alt="Copy">
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!-- Encoding/ decoding tab END -->
+
+                        <!-- Hashing tab START -->
+                        <div class="tab-pane fade" id="hashing" role="tabpanel" style="height: 485px">
+                            <div class="d-flex flex-column justify-content-between container-l1-custom">
+                                <div class="mt-2 mb-2">
+                                    <h4> Hashing </h4>
+                                </div>
+
+                                <div>
+                                    <div class="form-group mb-2">
+                                        <label for="encoding-select-technique">Algorithm</label>
+                                        <select class="form-select" id="hash-select-algorithm">
+                                            <option value="md5" selected>MD5</option>
+                                            <option value="bcrypt">BCRYPT</option>
+                                            <option value="ntlmv1">NTLMv1 (LM:NT)</option>
+                                            <option value="sha1">SHA1</option>
+                                            <option value="sha224">SHA224</option>
+                                            <option value="sha256">SHA256</option>
+                                            <option value="sha384">SHA384</option>
+                                            <option value="sha512">SHA512</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <div class="form-group">
+                                            <span>
+                                                Input
+                                            </span>
+                                            <!-- start textarea and copybutton-->
+                                            <div class="position-relative d-flex">
+                                                <textarea id="hash-generate-input" class="form-control" rows="6"
+                                                          style="width: 100%; padding-right: 40px;"></textarea>
+                                                <a href="#">
+                                                    <img class="copy-icon" src="assets/icons/general/copy.png"
+                                                         style="position: absolute; bottom: 5px; right: 5px;"
+                                                         height="25px" width="25px" alt="Copy">
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <span>Output</span>
+                                            <!-- start textarea and copybutton-->
+                                            <div class="position-relative d-flex">
+                                                <textarea id="hash-generate-output" readonly class="form-control"
+                                                          rows="6"
+                                                          style="width: 100%; padding-right: 40px;"></textarea>
+                                                <a href="#">
+                                                    <img class="copy-icon" src="assets/icons/general/copy.png"
+                                                         style="position: absolute; bottom: 5px; right: 5px;"
+                                                         height="25px" width="25px" alt="Copy">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- Hashing tab END -->
+
+                        <!-- code obfuscation START -->
+                        <div class="tab-pane fade" id="general-tooling-code-obfuscation-content" role="tabpanel"
+                             style="height: 485px">
+                            <div class="d-flex flex-column justify-content-between container-l1-custom">
+                                <div class="mt-2 mb-2">
+                                    <h4> Code obfuscation </h4>
+                                </div>
+
+                                <div class="form-group w-100">
+                                    <span>Language</span>
+                                    <select class="form-select" id="general-tooling-code-obfuscation-options">
+                                        <option value="js-obfuscate-obfuscator-io" selected> javascript -
+                                            obfuscator.io
+                                        </option>
+                                        <option value="js-obfuscate-minimal-chars"> javascript - (!+()[]{},)</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group mt-1">
+                                    <span>Input</span>
+                                    <!-- start textarea and copybutton-->
+                                    <div class="position-relative d-flex">
+                                        <label for="general-tooling-code-obfuscation-input"></label><textarea
+                                            id="general-tooling-code-obfuscation-input" class="form-control"
+                                            style="width: 100%; padding-right: 40px; height:160px"
+                                            data-runtime-command="obfuscateJavascript"
+                                            data-target-select="general-tooling-code-obfuscation-options"></textarea>
+                                        <a href="#">
+                                            <img class="copy-icon" src="assets/icons/general/copy.png"
+                                                 style="position: absolute; bottom: 5px; right: 5px;" height="25px"
+                                                 width="25px" alt="Copy">
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <span> Output </span>
+
+                                <div>
+                                    <div class="d-flex justify-content-between rounded bg-code-4 border-vscode-blue text-white"
+                                         style="height: 160px;">
+                                    <pre class="p-2 w-100 h-100"
+                                         id="general-tooling-code-obfuscation-output-pre"><code
+                                            id="general-tooling-code-obfuscation-output-code"
+                                            class="p-2 language-javascript rounded h-100"
+                                            style="white-space: pre-wrap;"></code></pre>
+                                        <a href="#" class="d-flex flex-column justify-content-end"
+                                           style="width: 6%">
+
+                                            <img class="copy-icon-code"
+                                                 src="assets/icons/general/copy.png">
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- code obfuscation END -->
+
+                        <!-- Formatter tab START -->
+                        <div class="tab-pane fade" id="formatter" role="tabpanel" style="height: 485px">
+                            <div class="d-flex flex-column justify-content-between container-l1-custom">
+                                <div class="mt-2 mb-2">
+                                    <h4> Code formatter </h4>
+                                </div>
+                                <div class="form-group">
+                                    <span>Language</span>
+                                    <select class="form-select" id="general-tooling-code-formatter-options">
+                                        <option value="xml"> html & xml</option>
+                                        <option value="json"> json</option>
+                                        <option value="css"> css</option>
+                                        <option value="javascript"> javascript</option>
+                                        <option value="sql"> sql</option>
+                                        <option value="sql"> postgresql</option>
+                                    </select>
+                                    <div class="d-flex justify-content-between mb-1 mt-1">
+                                        <button class="btn w-100 btn-outline-custom"
+                                                id="general-tooling-input-formatter-button">
+                                            Format
+                                        </button>
+                                    </div>
+                                    <!-- start textarea and copybutton-->
+                                    <div class="position-relative d-flex">
+                            <textarea id="general-tooling-input-formatter-text" class="form-control"
+                                      rows="13"
+                                      style="width: 100%; padding-right: 40px; overflow-y: scroll; overflow-x: scroll;"></textarea>
+                                        <a href="#">
+                                            <img class="copy-icon" src="assets/icons/general/copy.png"
+                                                 style="position: absolute; bottom: 5px; right: 5px;" height="25px"
+                                                 width="25px" alt="Copy">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Formatter tab END -->
+
+                        <!-- code highlight START-->
+                        <div class="tab-pane fade" id="general-tooling-code-highlighter-content" role="tabpanel"
+                             style="height: 485px">
+                            <div class="d-flex flex-column justify-content-between container-l1-custom">
+                                <div class="mt-2 mb-2">
+                                    <h4> Code Highlighter </h4>
+                                </div>
+
+                                <div class="form-group w-100">
+                                    <span>Language</span>
+                                    <select class="form-select" id="general-tooling-code-highlighter-options">
+                                        <option value="language-xml"> html &amp; xml</option>
+                                        <option value="language-javascript"> javascript</option>
+                                        <option value="language-python"> python</option>
+                                        <option value="language-bash"> bash</option>
+                                        <option value="language-powershell"> powershell</option>
+                                        <option value="language-sql"> sql</option>
+                                        <option value="language-pgsql"> pgsql</option>
+                                        <option value="language-json"> json</option>
+                                        <option value="language-css"> css</option>
+                                        <option value="language-dockerfile"> dockerfile</option>
+                                        <option value="language-go"> golang</option>
+                                        <option value="language-markdown"> markdown</option>
+                                        <option value="language-perl"> perl</option>
+                                        <option value="language-php"> php</option>
+                                        <option value="language-plaintext"> plaintext</option>
+                                        <option value="language-yml"> yml</option>
+                                        <option value="language-ini"> ini</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group mt-1">
+                                    <span>Input</span>
+                                    <!-- start textarea and copybutton-->
+                                    <div class="position-relative d-flex">
+                                        <label for="general-tooling-code-highlighter-input"></label><textarea
+                                            id="general-tooling-code-highlighter-input" class="form-control"
+                                            style="width: 100%; padding-right: 40px; height:160px"></textarea>
+                                        <a href="#">
+                                            <img class="copy-icon" src="assets/icons/general/copy.png"
+                                                 style="position: absolute; bottom: 5px; right: 5px;" height="25px"
+                                                 width="25px" alt="Copy">
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <span> Output </span>
+                                <div>
+                                    <div class="d-flex justify-content-between rounded bg-code-4 border-vscode-blue"
+                                         style="height: 160px;">
+                                        <pre class="p-0 w-100 h-100"
+                                             id="general-tooling-code-highlighter-output-pre"><code
+                                                id="general-tooling-code-highlighter-output-code"
+                                                class="p-2 language-plaintext rounded h-100"
+                                                style="white-space: pre-wrap;"></code></pre>
+                                        <a href="#" class="d-flex flex-column justify-content-end"
+                                           style="width: 6%">
+
+                                            <img id="general-tooling-code-highlighting-screenshot"
+                                                 style="position: absolute; bottom: 45px; right: 14px;"
+                                                 data-bs-toggle="tooltip" data-bs-placement="right"
+                                                 title="Save screenshot to clipboard"
+                                                 src="assets/icons/general/screenshot.png" height="23px" width="23px"
+                                                 alt="screenshot">
+
+                                            <img class="copy-icon-code"
+                                                 src="assets/icons/general/copy.png">
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- code highlight END -->
+
+                    </div>
+                    <!-- tab 1 content END -->
+
+                </div>
+                <!-- tab 1 (tooling) END -->
+
+                <!-- tab 2 (Enum tooling) START -->
+                <div class="tab-pane fade" id="tab2">
+
+                    <!-- Nested tabs for Enum 2 START -->
+                    <ul class="nav nav-tabs border-vscode-blue-bottom bg-code-4" id="enum-tooling-tab" role="tablist">
+
+                        <li class="nav-item">
+                            <a class="nav-link active" id="enum-tooling-spider-nav-item" data-bs-toggle="tab"
+                               href="#enum-tooling-spider" role="tab">
+                                <img data-bs-toggle="tooltip" data-bs-placement="right" title="Website spider"
+                                     src="assets/icons/navbar/tab-2-enum-tooling/spider.png" width="25px"
+                                     height="25px">
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" id="enum-tooling-toolbox-nav-item" data-bs-toggle="tab"
+                               href="#enum-tooling-toolbox" role="tab">
+                                <img data-bs-toggle="tooltip" data-bs-placement="right" title="Enumeration toolbox"
+                                     src="assets/icons/navbar/tab-2-enum-tooling/toolbox.png" width="25px"
+                                     height="25px">
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" id="enum-tooling-iframe-checker-nav-item" data-bs-toggle="tab"
+                               href="#enum-tooling-iframe-checker" role="tab">
+                                <img data-bs-toggle="tooltip" data-bs-placement="right" title="Iframe checker"
+                                     src="assets/icons/navbar/tab-2-enum-tooling/frame.png" width="25px"
+                                     height="25px">
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" id="enum-tooling-google-dork-tab" data-bs-toggle="tab"
+                               href="#enum-tooling-google-dork-content" role="tab">
+                                <img data-bs-toggle="tooltip" data-bs-placement="right"
+                                     title="Google dork query builder"
+                                     src="assets/icons/navbar/tab-2-enum-tooling/google-dork.png" width="25px"
+                                     height="25px;">
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" id="enum-tooling-monitor-nav-item" data-bs-toggle="tab"
+                               href="#enum-tooling-monitor" role="tab">
+                                <img data-bs-toggle="tooltip" data-bs-placement="right" title="Monitor"
+                                     src="assets/icons/navbar/tab-2-enum-tooling/monitor.png" width="25px"
+                                     height="25px">
+                            </a>
+                        </li>
+
+                    </ul>
+                    <!-- Nested tabs for Enum 2 END -->
+
+                    <!-- tab content START -->
+                    <div class="tab-content" id="enum-tooling-tab-content">
+
+                        <!-- tab 1 - spider START -->
+                        <div class="tab-pane fade active show" id="enum-tooling-spider" role="tabpanel"
+                             style="height: 485px">
+                            <div class="d-flex flex-column justify-content-between container-l1-custom">
+                                <div class="mt-2 mb-2">
+                                    <h4> Website spider </h4>
+                                </div>
+
+                                <div>
+                                    <div class="d-flex justify-content-between">
+                                        <button class="btn btn-outline-custom w-100"
+                                                id="enum-tooling-spider-start-button" value="spiderCurrentWebsite">Start
+                                            spider
+                                        </button>
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-1">
+                                        <button class="btn btn-outline-custom w-50 me-1"
+                                                id="enum-tooling-spider-simplified-view" value="{}">View simple
+                                            tree
+                                        </button>
+                                        <button class="btn btn-outline-custom w-50"
+                                                id="enum-tooling-spider-detailed-view" value="{}">
+                                            View tree & forms
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <span>Output</span>
+                                    <!-- start textarea and copybutton-->
+                                    <div class="position-relative d-flex">
+                                        <textarea id="enum-tooling-spider-output-textarea" readonly
+                                                  class="form-control" rows="13"
+                                                  style="width: 100%; padding-right: 40px;"></textarea>
+                                        <a href="#">
+                                            <img class="copy-icon" src="assets/icons/general/copy.png"
+                                                 style="position: absolute; bottom: 5px; right: 5px;" height="25px"
+                                                 width="25px" alt="Copy">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- tab 1 - spider END -->
+
+                        <!-- tab 2 - toolbox START -->
+                        <div class="tab-pane fade" id="enum-tooling-toolbox" role="tabpanel" style="height: 485px">
+                            <div class="d-flex flex-column justify-content-between container-l1-custom">
+                                <div class="mt-2 mb-2">
+                                    <h4> Toolbox </h4>
+                                </div>
+
+                                <div>
+                                    <span>Act on current page</span>
+                                    <div class="d-flex justify-content-between">
+                                        <button class="btn btn-outline-custom w-50 me-1"
+                                                id="enum-tooling-highlight-forms-cp" value="highlightForms"> Highlight
+                                            <br>
+                                            <small class="consolas-text">&lt;form&gt;</small>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-custom w-50 me-1"
+                                                id="enum-tooling-view-hidden-input"
+                                                value="convertAndHighlightHiddenInputs">Convert and highlight
+                                            <br>
+                                            <small class="consolas-text">&lt;input type="hidden"&gt;</small>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-custom w-50 me-1"
+                                                id="enum-tooling-highlight-inputs-cp" value="highlightInputs"> Highlight
+                                            <br>
+                                            <small class="consolas-text">&lt;input type="*"&gt;</small>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="mb-1 mt-1">
+                                    <span>Extract from current page</span>
+                                    <div class="d-flex justify-content-between">
+                                        <button class="btn btn-outline-custom w-25 me-1"
+                                                id="enum-tooling-extract-comments-cp" value="extractCommentsCP">
+                                            comments
+                                        </button>
+                                        <button class="btn btn-outline-custom w-25 me-1"
+                                                id="enum-tooling-extract-forms-cp" value="extractFormsCP"> forms
+                                        </button>
+                                        <button class="btn btn-outline-custom w-25 me-1"
+                                                id="enum-tooling-extract-url-cp" value="extractUrlsCP">urls
+                                        </button>
+                                        <button class="btn btn-outline-custom w-25 me-1"
+                                                id="enum-tooling-extract-headers" value="extractHeaderCP">headers
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <span>Output</span>
+                                    <!-- start textarea and copybutton-->
+                                    <div class="position-relative d-flex">
+<textarea readonly id="enum-tooling-output-textarea" class="form-control"
+          rows="10" style="white-space: nowrap; overflow-x: scroll; padding-right: 40px;"></textarea>
+                                        <a href="#">
+                                            <img class="copy-icon" src="assets/icons/general/copy.png"
+                                                 style="position: absolute; bottom: 5px; right: 5px;" height="25px"
+                                                 width="25px" alt="Copy">
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- tab 2 - toolbox END -->
+
+                        <!-- tab 3 - iframe checker START -->
+                        <div class="tab-pane fade" id="enum-tooling-iframe-checker" role="tabpanel"
+                             style="height: 485px">
+                            <div class="d-flex flex-column justify-content-between container-l1-custom">
+                                <div class="mt-2 mb-2">
+                                    <h4> Iframe checker </h4>
+                                </div>
+
+                                <div class="w-100">
+                                    <div class="d-flex justify-content-between mb-1">
+                                        <button class="btn btn-outline-custom w-50 me-1"
+                                                id="enum-tooling-iframe-get-current-url"
+                                                value="getCurrentUrl">Load url
+                                        </button>
+                                        <button class="btn btn-outline-custom w-50"
+                                                id="enum-tooling-iframe-check-iframe-button">Check
+                                        </button>
+                                    </div>
+
+                                    <div class="form-group w-100 d-flex justify-content-between">
+                                        <div class="form-group w-100">
+                                            <!-- start textarea and copybutton-->
+                                            <div class="position-relative d-flex w-100">
+                                                    <textarea id="enum-tooling-iframe-url-input" class="form-control"
+                                                              placeholder="https://www.example.com" rows="1"
+                                                              style="width: 100%; padding-right: 40px;"></textarea>
+                                                <a href="#">
+                                                    <img class="copy-icon" src="assets/icons/general/copy.png"
+                                                         style="position: absolute; bottom: 5px; right: 5px;"
+                                                         height="25px" width="25px" alt="Copy">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-1 w-100" style="height: 350px;">
+                                    <iframe id="enum-tooling-iframe-check-iframe-element"
+                                            class="w-100 h-100 border-vscode-blue rounded"
+                                            src="https://www.example.com"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- tab 3 - iframe checker END -->
+
+                        <!-- tab 4 - google dork START -->
+                        <div class="tab-pane fade" id="enum-tooling-google-dork-content" role="tabpanel">
+                            <div class="d-flex flex-column justify-content-between container-l1-custom">
+                                <div class="d-flex justify-content-start mt-1 enum-tooling-google-dork-explanation">
+                                    <h4 class="me-2">Google Dork query builder</h4>
+                                </div>
+
+                                <div class="d-flex justify-content-between">
+                                    <div class="w-100" id="virtual-select-container">
+                                        <select class="virtual-select-google-dork" data-custom-object="true"
+                                                id="enum-tooling-google-dork-select-parameters" multiple="true"
+                                                name="native-select" placeholder="Select search parameters"
+                                                data-search="true" data-silent-initial-value-set="true">
+                                            <option value="site:">site:</option>
+                                            <option value="inurl:">inurl:</option>
+                                            <option value="intitle:">intitle:</option>
+                                            <option value="filetype:">filetype:</option>
+                                            <option value="ext:">ext:</option>
+                                            <option value="link:">link:</option>
+                                            <option value="cache:">cache:</option>
+                                            <option value="allintext:">allintext:</option>
+                                            <option value="allinurl:">allinurl:</option>
+                                            <option value="related:">related:</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="mb-2 d-flex justify-content-between">
+                                    <button class="btn btn-outline-custom w-100" data-bs-toggle="modal"
+                                            data-bs-target="#enum-tooling-google-dork-parameters"
+                                            id="enum-tooling-google-dork-build-query-button">
+                                        Build query
+                                    </button>
+                                </div>
+
+                                <div class="form-group">
+                                    <!-- start textarea and copybutton-->
+                                    Output
+                                    <div class="position-relative d-flex">
+                                                <textarea class="form-control" readonly
+                                                          id="enum-tooling-google-dork-output-textarea"
+                                                          style="width: 100%; height: 325px; padding-right: 40px;"></textarea>
+                                        <a href="#">
+                                            <img class="copy-icon" src="assets/icons/general/copy.png"
+                                                 style="position: absolute; bottom: 5px; right: 5px;"
+                                                 height="25px" width="25px" alt="Copy">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- tab 4 - google dork END -->
+
+                        <!-- tab 5 - monitor START -->
+                        <div class="tab-pane fade" id="enum-tooling-monitor" role="tabpanel">
+
+                            <!-- tab switcher monitor START -->
+                            <ul class="nav nav-tabs border-vscode-blue-bottom bg-code-3" id="enum-tooling-monitor-tab"
+                                role="tablist">
+
+                                <li class="nav-item">
+                                    <a class="btn nav-link" id="enum-tooling-postmessage-monitor-nav-item"
+                                       data-bs-toggle="tab" href="#enum-tooling-postmessage-monitor-tab"
+                                       role="tab">
+                                        <div class="d-flex justify-content-between">
+                                            <img data-bs-toggle="tooltip" data-bs-placement="right"
+                                                 title="Postmessage monitor"
+                                                 src="assets/icons/navbar/tab-2-enum-tooling/subtab-5-monitor/postmessage-monitor.png"
+                                                 width="25px" height="25px">
+                                            <div class="ms-1 text-white" style="font-size: 10px;"
+                                                 id="enum-tooling-postmessage-monitor-count">
+                                                0
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="btn nav-link" id="enum-tooling-cookie-monitor-nav-item"
+                                       data-bs-toggle="tab" href="#enum-tooling-cookie-monitor-tab" role="tab">
+                                        <div class="d-flex justify-content-between">
+                                            <img data-bs-toggle="tooltip" data-bs-placement="right"
+                                                 title="Cookie monitor"
+                                                 src="assets/icons/navbar/tab-2-enum-tooling/subtab-5-monitor/cookie-monitor.png"
+                                                 width="25px" height="25px">
+                                            <div class="ms-1 text-white" style="font-size: 10px;"
+                                                 id="enum-tooling-cookie-monitor-count">
+                                                0
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+
+                            </ul>
+                            <!-- tab switcher monitor END -->
+                            <div class="tab-content">
+                                <!-- postmessage monitor start-->
+                                <div class="tab-pane fade show active mt-1"
+                                     id="enum-tooling-postmessage-monitor-tab" style="height: 420px" role="tabpanel">
+
+                                    <div class="d-flex justify-content-start">
+                                        <h6 class="mt-1">
+                                            Postmessage monitor&nbsp;
+                                        </h6>
+                                    </div>
+
+                                    <small>
+                                        <span class="current-tab-url"></span>
+                                    </small>
+
+                                    <div class="table-container mt-2" style="max-height: 400px;">
+                                        <div id="postmessage-monitor-table-table-body"
+                                             data-control-update="true"
+                                             class="em-feed">
+
+                                            <div class="ef-initial-loading">
+                                                <div class="ef-spinner"></div>
+                                                <span>Waiting for postmessage events...</span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- postmessage monitor end-->
+                                <!-- cookie monitor start-->
+                                <div class="tab-pane fade mt-1" id="enum-tooling-cookie-monitor-tab"
+                                     style="height: 420px" role="tabpanel">
+
+                                    <div class="d-flex justify-content-start">
+                                        <h6 class="mt-1">
+                                            Cookie monitor&nbsp;
+                                        </h6>
+                                        <a class="reset-button" href="#">
+                                            <img value="reset-cookies" data-reset-command="background-reset-cookies"
+                                                 data-reset-target="cookie-monitor-table-table-body"
+                                                 data-reset-count-target="enum-tooling-cookie-monitor-count"
+                                                 data-bs-toggle="tooltip" data-bs-placement="right"
+                                                 title="Reset cookies" src="assets/icons/general/reset.png"
+                                                 width="20px" height="20px;">
+                                        </a>
+                                    </div>
+
+                                    <small>
+                                        <span class="current-domain-url"></span>
+                                    </small>
+
+                                    <div class="table-container mt-2" style="max-height: 400px;">
+                                        <div id="cookie-monitor-table-table-body"
+                                             data-control-update="true"
+                                             class="em-feed">
+
+                                            <div class="ef-initial-loading">
+                                                <div class="ef-spinner"></div>
+                                                <span>Waiting for cookie events...</span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- cookie monitor end -->
+                            </div>
+                        </div>
+                        <!-- tab 5 - monitor END -->
+                    </div>
+                    <!-- tab content END -->
+
+                </div>
+                <!-- tab 2 (Enum) end -->
+
+                <!-- tab 3 (Exploit assistant) start -->
+                <div class="tab-pane fade" id="tab3">
+
+                    <!-- Nested tabs for Enum 3 -->
+                    <ul class="nav nav-tabs border-vscode-blue-bottom bg-code-4" id="exploit-assistant-tab"
+                        role="tablist">
+
+                        <li class="nav-item">
+                            <a class="nav-link" id="exploit-assistant-xss-nav-item" data-bs-toggle="tab"
+                               href="#exploit-assistant-xss" role="tab">
+                                <img data-bs-toggle="tooltip" data-bs-placement="right" title="XSS assistant"
+                                     src="assets/icons/navbar/tab-3-exploit-assistant/xss.png" width="25px"
+                                     height="25px">
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" id="exploit-assistant-sql-injection-nav-item" data-bs-toggle="tab"
+                               href="#exploit-assistant-sql-injection" role="tab">
+                                <img data-bs-toggle="tooltip" data-bs-placement="right"
+                                     title="SQL injection assistant"
+                                     src="assets/icons/navbar/tab-3-exploit-assistant/sql-injection.png" width="25px"
+                                     height="25px">
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" id="exploit-assistant-command-injection-fi-nav-item"
+                               data-bs-toggle="tab"
+                               href="#exploit-assistant-command-injection-fi" role="tab">
+                                <img data-bs-toggle="tooltip" data-bs-placement="right"
+                                     title="Command injection &amp; file inclusion assistant"
+                                     src="assets/icons/navbar/tab-3-exploit-assistant/command-injection-fi.png"
+                                     width="25px"
+                                     height="25px">
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="exploit-assistant-file-upload-nav-item" data-bs-toggle="tab"
+                               href="#exploit-assistant-file-upload" role="tab">
+                                <img data-bs-toggle="tooltip" data-bs-placement="right" title="File upload assistant"
+                                     src="assets/icons/navbar/tab-3-exploit-assistant/file-upload.png" width="25px"
+                                     height="25px">
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" id="exploit-assistant-forgery-checker-nav-item" data-bs-toggle="tab"
+                               href="#exploit-assistant-forgery-checker" role="tab">
+                                <img data-bs-toggle="tooltip" data-bs-placement="right" title="Forgery assistant"
+                                     src="assets/icons/navbar/tab-3-exploit-assistant/forgery.png" width="25px"
+                                     height="25px">
+                            </a>
+                        </li>
+
+                    </ul>
+
+                    <div class="tab-content" id="exploit-assistant-tab-content">
+
+                        <!-- tab 1 - XSS ASSISTANT START -->
+                        <div class="tab-pane fade show active" id="exploit-assistant-xss" role="tabpanel"
+                             style="height: 485px">
+                            <div class="d-flex flex-column justify-content-between">
+                                <ul class="nav nav-tabs border-vscode-blue-bottom bg-code-3" id="exploit-assistant-main"
+                                    role="tablist">
+
+                                    <li class="nav-item">
+                                        <a class="btn nav-link active" id="exploit-assistant-xss-cheat-sheet"
+                                           data-bs-toggle="tab" href="#exploit-assistant-xss-cheat-sheet-tab"
+                                           role="tab">
+                                            <div class="d-flex justify-content-between">
+                                                <img data-bs-toggle="tooltip" data-bs-placement="right"
+                                                     title="XSS cheat sheet"
+                                                     src="assets/icons/navbar/tab-3-exploit-assistant/cheat-sheet.png"
+                                                     width="25px" height="25px">
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="btn nav-link" id="exploit-assistant-xss-payloads"
+                                           data-bs-toggle="tab" href="#exploit-assistant-xss-payloads-tab"
+                                           role="tab">
+                                            <div class="d-flex justify-content-between">
+                                                <img data-bs-toggle="tooltip" data-bs-placement="right"
+                                                     title="XSS exploitation payloads"
+                                                     src="assets/icons/navbar/tab-3-exploit-assistant/payload.png"
+                                                     width="25px" height="25px">
+                                            </div>
+                                        </a>
+                                    </li>
+
+                                </ul>
+
+                                <div class="tab-content">
+                                    <!-- TAB 1 - XSS CHEAT SHEET START-->
+                                    <div class="tab-pane fade show active"
+                                         id="exploit-assistant-xss-cheat-sheet-tab" role="tabpanel">
+                                        <div class="d-flex justify-content-between flex-column container-l2-custom">
+
+                                            <h6 class="mt-2">XSS cheat sheet</h6>
+
+                                            <div class="d-flex flex-wrap justify-content-between">
+                                                <div class="w-100">
+                                                    <select id="exploit-assistant-xss-type-dropdown"
+                                                            class="form-select">
+
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <!-- start textarea and copybutton-->
+                                                <div class="d-flex justify-content-between rounded bg-code-4 border-vscode-blue"
+                                                     style="min-height:360px; max-height: 360px;">
+                                                    <pre class="p-0 w-100 h-100"
+                                                         id="exploit-assistant-xss-cheat-sheet-code-output"><code
+                                                            class="p-2 language-javascript rounded h-100"
+                                                            style="white-space: pre-wrap;"></code></pre>
+                                                    <a href="#"
+                                                       style="width: 6%; display: flex; align-items: end; justify-content: end;">
+                                                        <img class="copy-icon-code"
+                                                             src="assets/icons/general/copy.png">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- TAB 1 - XSS CHEAT SHEET STOP -->
+
+                                    <!-- TAB 2 - XSS PAYLOADS START -->
+                                    <div class="tab-pane fade"
+                                         id="exploit-assistant-xss-payloads-tab" role="tabpanel">
+                                        <div class="d-flex justify-content-between flex-column container-l2-custom">
+                                            <h6 class="mt-2">XSS exploitation payloads</h6>
+
+                                            <div class="d-flex flex-wrap justify-content-between">
+                                                <div class="w-100">
+                                                    <select id="exploit-assistant-xss-payloads-dropdown"
+                                                            class="form-select">
+
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <!-- start textarea and copybutton-->
+                                                <div class="d-flex justify-content-between rounded bg-code-4 border-vscode-blue"
+                                                     style="min-height:360px; max-height: 360px;">
+                                                        <pre class="p-0 w-100 h-100"
+                                                             id="exploit-assistant-xss-payloads-code-output"><code
+                                                                class="p-2 language-javascript rounded h-100"
+                                                                style="white-space: pre-wrap;"></code></pre>
+                                                    <a href="#"
+                                                       style="width: 6%;">
+                                                        <img class="copy-icon-code"
+                                                             src="assets/icons/general/copy.png">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- TAB 2 - XSS PAYLOADS STOP -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- tab 1 - XSS ASSISTANT END -->
+
+                        <!-- tab 2 - sql-injection checker START -->
+                        <div class="tab-pane fade" id="exploit-assistant-sql-injection" role="tabpanel"
+                             style="height: 485px">
+                            <div class="d-flex flex-column justify-content-between">
+                                <ul class="nav nav-tabs border-vscode-blue-bottom bg-code-3" role="tablist">
+
+                                    <li class="nav-item">
+                                        <a class="btn nav-link active" id="exploit-assistant-sqli-cheat-sheet"
+                                           data-bs-toggle="tab" href="#exploit-assistant-sqli-cheat-sheet-tab"
+                                           role="tab">
+                                            <div class="d-flex justify-content-between">
+                                                <img data-bs-toggle="tooltip" data-bs-placement="right"
+                                                     title="SQLinjection cheat sheet"
+                                                     src="assets/icons/navbar/tab-3-exploit-assistant/cheat-sheet.png"
+                                                     width="25px" height="25px">
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="btn nav-link" id="exploit-assistant-sqli-payloads"
+                                           data-bs-toggle="tab" href="#exploit-assistant-sqli-payloads-tab"
+                                           role="tab">
+                                            <div class="d-flex justify-content-between">
+                                                <img data-bs-toggle="tooltip" data-bs-placement="right"
+                                                     title="SQLinjection exploitation payloads"
+                                                     src="assets/icons/navbar/tab-3-exploit-assistant/payload.png"
+                                                     width="25px" height="25px">
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tab-content">
+                                <!-- TAB 1 - SQLI CHEAT SHEET START-->
+                                <div class="tab-pane fade show active"
+                                     id="exploit-assistant-sqli-cheat-sheet-tab" role="tabpanel">
+                                    <div class="d-flex justify-content-between flex-column container-l2-custom">
+
+                                        <h6 class="mt-2">SQLinjection cheat sheet</h6>
+
+                                        <div class="d-flex flex-wrap justify-content-between">
+                                            <div class="w-100">
+                                                <select id="exploit-assistant-sqli-type-dropdown"
+                                                        class="form-select">
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <!-- start textarea and copybutton-->
+                                            <div class="d-flex justify-content-between rounded bg-code-4 border-vscode-blue"
+                                                 style="min-height:360px; max-height: 360px;">
+                                                    <pre class="p-0 w-100 h-100"
+                                                         id="exploit-assistant-sqli-cheat-sheet-code-output"><code
+                                                            class="p-2 language-javascript rounded h-100"
+                                                            style="white-space: pre-wrap;"></code></pre>
+                                                <a href="#"
+                                                   style="width: 6%; display: flex; align-items: end; justify-content: end;">
+                                                    <img class="copy-icon-code"
+                                                         src="assets/icons/general/copy.png">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- TAB 1 - SQLI CHEAT SHEET STOP -->
+
+                                <!-- TAB 2 - SQLI PAYLOADS START -->
+                                <div class="tab-pane fade"
+                                     id="exploit-assistant-sqli-payloads-tab" role="tabpanel">
+                                    <div class="d-flex justify-content-between flex-column container-l2-custom">
+                                        <h6 class="mt-2">SQLInjection exploitation payloads</h6>
+
+                                        <div class="d-flex flex-wrap justify-content-between">
+                                            <div class="w-100">
+                                                <select id="exploit-assistant-sqli-payloads-dropdown"
+                                                        class="form-select">
+
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <!-- start textarea and copybutton-->
+                                            <div class="d-flex justify-content-between rounded bg-code-4 border-vscode-blue"
+                                                 style="min-height:360px; max-height: 360px;">
+                                                        <pre class="p-0 w-100 h-100"
+                                                             id="exploit-assistant-sqli-payloads-code-output"><code
+                                                                class="p-2 language-javascript rounded h-100"
+                                                                style="white-space: pre-wrap;"></code></pre>
+                                                <a href="#"
+                                                   style="width: 6%; display: flex; align-items: end; justify-content: end;">
+                                                    <img class="copy-icon-code"
+                                                         src="assets/icons/general/copy.png">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- TAB 2 - SQLI PAYLOADS STOP -->
+                            </div>
+                        </div>
+                        <!-- tab 2 - sql-injection checker END -->
+
+                        <!-- tab 3 - command-injection - fi START -->
+                        <div class="tab-pane fade" id="exploit-assistant-command-injection-fi" role="tabpanel"
+                             style="height: 485px">
+                            <div class="d-flex flex-column justify-content-between">
+                                <ul class="nav nav-tabs border-vscode-blue-bottom bg-code-3" role="tablist">
+
+                                    <li class="nav-item">
+                                        <a class="btn nav-link active"
+                                           id="exploit-assistant-command-injection-fi-cheat-sheet"
+                                           data-bs-toggle="tab"
+                                           href="#exploit-assistant-command-injection-fi-cheat-sheet-tab"
+                                           role="tab">
+                                            <div class="d-flex justify-content-between">
+                                                <img data-bs-toggle="tooltip" data-bs-placement="right"
+                                                     title="Command injection & file inclusion cheat sheet"
+                                                     src="assets/icons/navbar/tab-3-exploit-assistant/cheat-sheet.png"
+                                                     width="25px" height="25px">
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tab-content">
+                                <!-- CI CHEAT SHEET START-->
+                                <div class="tab-pane fade show active"
+                                     id="exploit-assistant-command-injection-fi-cheat-sheet-tab" role="tabpanel">
+                                    <div class="d-flex justify-content-between flex-column container-l2-custom">
+
+                                        <h6 class="mt-2">Command injection & file inclusion cheat sheet</h6>
+
+                                        <div class="d-flex flex-wrap justify-content-between">
+                                            <div class="w-100">
+                                                <select id="exploit-assistant-command-injection-fi-dropdown"
+                                                        class="form-select">
+
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <!-- start textarea and copybutton-->
+                                            <div class="d-flex justify-content-between rounded bg-code-4 border-vscode-blue"
+                                                 style="min-height:360px; max-height: 360px;">
+                                                    <pre class="p-0 w-100 h-100"
+                                                         id="exploit-assistant-command-injection-fi-cheat-sheet-code-output"><code
+                                                            class="p-2 language-javascript rounded h-100"
+                                                            style="white-space: pre-wrap;"></code></pre>
+                                                <a href="#"
+                                                   style="width: 6%; display: flex; align-items: end; justify-content: end;">
+                                                    <img class="copy-icon-code"
+                                                         src="assets/icons/general/copy.png">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--  CI CHEAT SHEET STOP -->
+
+                            </div>
+                        </div>
+                        <!-- tab 3 - command-injection - fi checker END -->
+                        <div class="tab-pane fade" id="exploit-assistant-file-upload" role="tabpanel"
+                             style="height: 485px">
+                            <div class="d-flex flex-column justify-content-between">
+                                <ul class="nav nav-tabs border-vscode-blue-bottom bg-code-3" role="tablist">
+
+                                    <li class="nav-item">
+                                        <a class="btn nav-link active"
+                                           id="exploit-assistant-file-upload-cheat-sheet"
+                                           data-bs-toggle="tab"
+                                           href="#exploit-assistant-file-upload-cheat-sheet-tab"
+                                           role="tab">
+                                            <div class="d-flex justify-content-between">
+                                                <img data-bs-toggle="tooltip" data-bs-placement="right"
+                                                     title="Command injection & file inclusion cheat sheet"
+                                                     src="assets/icons/navbar/tab-3-exploit-assistant/cheat-sheet.png"
+                                                     width="25px" height="25px">
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tab-content">
+                                <!-- CI CHEAT SHEET START-->
+                                <div class="tab-pane fade show active"
+                                     id="exploit-assistant-file-upload-cheat-sheet-tab" role="tabpanel">
+                                    <div class="d-flex justify-content-between flex-column container-l2-custom">
+
+                                        <h6 class="mt-2">File upload cheat sheet</h6>
+
+                                        <div class="d-flex flex-wrap justify-content-between">
+                                            <div class="w-100">
+                                                <select id="exploit-assistant-file-upload-dropdown"
+                                                        class="form-select">
+
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <!-- start textarea and copybutton-->
+                                            <div class="d-flex justify-content-between rounded bg-code-4 border-vscode-blue"
+                                                 style="min-height:360px; max-height: 360px;">
+                                                    <pre class="p-0 w-100 h-100"
+                                                         id="exploit-assistant-file-upload-cheat-sheet-code-output"><code
+                                                            class="p-2 language-javascript rounded h-100"
+                                                            style="white-space: pre-wrap;"></code></pre>
+                                                <a href="#"
+                                                   style="width: 6%; display: flex; align-items: end; justify-content: end;">
+                                                    <img class="copy-icon-code"
+                                                         src="assets/icons/general/copy.png">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--  CI CHEAT SHEET STOP -->
+
+                            </div>
+                        </div>
+                        <!-- tab 5 - forgery checker START -->
+                        <div class="tab-pane fade" id="exploit-assistant-forgery-checker" role="tabpanel"
+                             style="height: 485px">
+                            <div class="d-flex flex-column justify-content-between">
+                                <ul class="nav nav-tabs border-vscode-blue-bottom bg-code-3" role="tablist">
+
+                                    <li class="nav-item">
+                                        <a class="btn nav-link active"
+                                           id="exploit-assistant-forgery-checker-ssrf-cheat-sheet"
+                                           data-bs-toggle="tab"
+                                           href="#exploit-assistant-forgery-checker-ssrf-cheat-sheet-tab"
+                                           role="tab">
+                                            <div class="d-flex justify-content-between">
+                                                <img data-bs-toggle="tooltip" data-bs-placement="right"
+                                                     title="SSRF scripts cheat sheet"
+                                                     src="assets/icons/navbar/tab-3-exploit-assistant/cheat-sheet.png"
+                                                     width="25px" height="25px">
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tab-content">
+                                <!-- SSRF CHEAT SHEET START-->
+                                <div class="tab-pane fade show active"
+                                     id="exploit-assistant-forgery-checker-ssrf-cheat-sheet-tab" role="tabpanel">
+                                    <div class="d-flex justify-content-between flex-column container-l2-custom">
+
+                                        <h6 class="mt-2">SSRF scripts</h6>
+
+                                        <div class="d-flex flex-wrap justify-content-between">
+                                            <div class="w-100">
+                                                <select id="exploit-assistant-ssrf-scripts-dropdown"
+                                                        class="form-select">
+
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <!-- start textarea and copybutton-->
+                                            <div class="d-flex justify-content-between rounded bg-code-4 border-vscode-blue"
+                                                 style="min-height:360px; max-height: 360px;">
+                                                    <pre class="p-0 w-100 h-100"
+                                                         id="exploit-assistant-forgery-checker-ssrf-cheat-sheet-code-output"><code
+                                                            class="p-2 language-javascript rounded h-100"
+                                                            style="white-space: pre-wrap;"></code></pre>
+                                                <a href="#"
+                                                   style="width: 6%; display: flex; align-items: end; justify-content: end;">
+                                                    <img class="copy-icon-code"
+                                                         src="assets/icons/general/copy.png">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--  SSRF CHEAT SHEET STOP -->
+
+                            </div>
+                        </div>
+                        <!-- tab 5 - forgery checker END -->
+                    </div>
+                </div>
+                <!-- tab 3 (Exploit assistant) end -->
+
+                <!-- tab 4 (shell assistant) start -->
+                <div class="tab-pane fade" id="tab4">
+
+                    <!-- shell assistant subtab navigation START -->
+                    <ul class="nav nav-tabs border-vscode-blue-bottom bg-code-4" id="shell-assistant-tab"
+                        role="tablist">
+
+                        <li class="nav-item">
+                            <a class="nav-link" id="shell-assistant-RS-tab" data-bs-toggle="tab"
+                               href="#shell-assistant-reverse-shells" role="tab">
+                                <img data-bs-toggle="tooltip" data-bs-placement="right" title="Reverse shells"
+                                     src="assets/icons/navbar/tab-4-shell-assistant/reverse-shell.png" width="25px"
+                                     height="25px;">
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" id="shell-assistant-BS-tab" data-bs-toggle="tab"
+                               href="#shell-assistant-bind-shells" role="tab">
+                                <img data-bs-toggle="tooltip" data-bs-placement="right" title="Bind shells"
+                                     src="assets/icons/navbar/tab-4-shell-assistant/bind-shell.png" width="25px"
+                                     height="25px;">
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" id="shell-assistant-TM-tab" data-bs-toggle="tab"
+                               href="#shell-assistant-transfer-methods" role="tab">
+                                <img data-bs-toggle="tooltip" data-bs-placement="right" title="Transfer methods"
+                                     src="assets/icons/navbar/tab-4-shell-assistant/transfer-methods.png"
+                                     width="25px" height="25px;">
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- shell assistant subtab navigation END -->
+
+                    <div class="tab-content" id="shell-assistant-tabContent">
+
+                        <!-- SHELL ASSISTANT - REVERSE SHELLS START -->
+                        <div class="tab-pane fade active show" id="shell-assistant-reverse-shells" role="tabpanel"
+                             style="height: 485px">
+                            <div class="d-flex flex-column justify-content-between container-l1-custom">
+                                <div class="d-flex justify-content-start mt-1 shell-assistant-stabilize-shell-modal">
+                                    <h4 class="me-2">Reverse shells</h4>
+                                </div>
+                                <!-- content is loaded with javascript START -->
+                                <div class="d-flex justify-content-between mt-1 mb-1">
+                                    <div class="form-group w-50">
+                                        <select class="form-select" id="shell-assistant-select-menu-language-tool">
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group w-50 ms-1">
+                                        <select class="form-select" id="shell-assistant-select-menu-reverse-shell">
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- content is loaded with javascript END -->
+
+
+                                <div>
+                                    <div class="d-flex justify-content-between w-100 rounded bg-code-4 border-vscode-blue"
+                                         style="height: 400px;">
+                                            <pre class="h-100 p-0"><code
+                                                    id="shell-assistant-reverse-shell-code-element"
+                                                    class="rounded p-2"
+                                                    style="white-space: pre; display: block;"></code></pre>
+                                        <a href="#"
+                                           style="width: 6%; display: flex; align-items: end; justify-content: end;">
+                                            <img class="copy-icon-code"
+                                                 src="assets/icons/general/copy.png">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- SHELL ASSISTANT - REVERSE SHELLS END -->
+
+                        <!-- SHELL ASSISTANT - BIND SHELLS START -->
+                        <div class="tab-pane fade" id="shell-assistant-bind-shells" role="tabpanel"
+                             style="height: 485px">
+                            <div class="d-flex flex-column justify-content-between container-l1-custom">
+                                <div
+                                        class="d-flex justify-content-start mt-1 shell-assistant-stabilize-shell-modal">
+                                    <h4 class="me-2">Bind shells</h4>
+                                </div>
+
+                                <!-- content is loaded with javascript START -->
+                                <div class="d-flex justify-content-between mt-1 mb-1">
+                                    <div class="form-group w-50">
+                                        <select class="form-select"
+                                                id="shell-assistant-bs-select-menu-language-tool">
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group w-50 ms-1">
+                                        <select class="form-select"
+                                                id="shell-assistant-bs-select-menu-reverse-shell">
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- content is loaded with javascript END -->
+
+                                <div>
+                                    <div class="d-flex justify-content-between w-100 rounded bg-code-4 border-vscode-blue"
+                                         style="height: 400px">
+                                            <pre class="h-100 p-0" style="width:90%;"><code
+                                                    id="shell-assistant-bs-code-element"
+                                                    class="rounded p-2 h-100"
+                                                    style="white-space: pre; display: block; width: 100%;"></code></pre>
+                                        <a href="#"
+                                           style="width: 6%; display: flex; align-items: end; justify-content: end;">
+                                            <img class="copy-icon-code"
+                                                 src="assets/icons/general/copy.png">
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- SHELL ASSISTANT - BIND SHELLS END -->
+
+                        <!-- SHELL ASSISTANT - TRANSFER METHODS START -->
+                        <div class="tab-pane fade" id="shell-assistant-transfer-methods" role="tabpanel"
+                             style="height: 485px">
+                            <div class="d-flex flex-column justify-content-between container-l1-custom">
+
+                                <div class="d-flex justify-content-start mt-1">
+                                    <h4 class="me-2">Transfer methods</h4>
+                                </div>
+
+                                <!-- filepath and filename START -->
+                                <div class="form-group d-flex justify-content-between mt-1">
+                                    <div class="position-relative d-flex w-50">
+                                            <textarea class="form-control" rows="1" id="shell-assistant-tm-filepath"
+                                                      placeholder="{filepath}"
+                                                      style="width: 100%; padding-right: 40px;"></textarea>
+                                        <a href="#">
+                                            <img class="copy-icon" src="assets/icons/general/copy.png"
+                                                 style="position: absolute; bottom: 5px; right: 5px;" height="25px"
+                                                 width="25px" alt="Copy">
+                                        </a>
+                                    </div>
+
+                                    <div class="position-relative d-flex w-50 ms-1">
+                                            <textarea class="form-control" id="shell-assistant-tm-filename" rows="1"
+                                                      placeholder="{newfilename}"
+                                                      style="width: 100%; padding-right: 40px;"></textarea>
+                                        <a href="#">
+                                            <img class="copy-icon" src="assets/icons/general/copy.png"
+                                                 style="position: absolute; bottom: 5px; right: 5px;" height="25px"
+                                                 width="25px" alt="Copy">
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- filepath and filename END -->
+
+                                <!-- content is loaded with javascript START -->
+                                <div class="d-flex justify-content-between mt-1 mb-1">
+                                    <div class="form-group w-50">
+                                        <select class="form-select"
+                                                id="shell-assistant-tm-select-menu-language-tool">
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group w-50 ms-1">
+                                        <select class="form-select"
+                                                id="shell-assistant-tm-select-menu-reverse-shell">
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- content is loaded with javascript END -->
+
+                                <div style="overflow-y: scroll;">
+                                    <div class="d-flex justify-content-between w-100 rounded bg-code-4 border-vscode-blue"
+                                         style="height: 358px;">
+                                            <pre class="h-100 p-0" style="width:90%;"><code
+                                                    id="shell-assistant-tm-code-element"
+                                                    class="rounded p-2 h-100"
+                                                    style="white-space: pre; display: block; width: 100%;"></code></pre>
+                                        <a href="#"
+                                           style="width: 6%; display: flex; align-items: end; justify-content: end;">
+                                            <img class="copy-icon-code"
+                                                 src="assets/icons/general/copy.png">
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- SHELL ASSISTANT - TRANSFER METHODS END -->
+
+                    </div>
+                </div>
+                <!-- tab 4 (shell assistant) end -->
+
+                <!-- tab 5 (checklist assistant) start -->
+                <div class="tab-pane fade" id="tab5">
+                    <!-- Nested tabs for Enum 5 -->
+                    <ul class="nav nav-tabs border-vscode-blue-bottom bg-code-4" id="checklist-assistant-tab"
+                        role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link" id="checklist-assistant-osint-checklist-nav" data-bs-toggle="tab"
+                               href="#checklist-assistant-osint-checklist" role="tab">
+                                <img data-bs-toggle="tooltip" data-bs-placement="right" title="OSINT - checklist"
+                                     src="assets/icons/navbar/tab-5-checklist-assistant/osint.png"
+                                     width="25px" height="25px;">
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" id="checklist-assistant-web-checklist-nav" data-bs-toggle="tab"
+                               href="#checklist-assistant-web-checklist" role="tab">
+                                <img data-bs-toggle="tooltip" data-bs-placement="right" title="Protocol - checklist"
+                                     src="assets/icons/navbar/tab-5-checklist-assistant/protocols-general.png"
+                                     width="25px" height="25px;">
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" id="checklist-assistant-linux-os-checklist-nav" data-bs-toggle="tab"
+                               href="#checklist-assistant-linux-os-checklist" role="tab">
+                                <img data-bs-toggle="tooltip" data-bs-placement="right" title="Linux OS - checklist"
+                                     src="assets/icons/navbar/tab-5-checklist-assistant/linux.png" width="25px"
+                                     height="25px;">
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" id="checklist-assistant-windows-os-checklist-nav"
+                               data-bs-toggle="tab" href="#checklist-assistant-windows-os-checklist" role="tab">
+                                <img data-bs-toggle="tooltip" data-bs-placement="right"
+                                     title="Windows OS - checklist"
+                                     src="assets/icons/navbar/tab-5-checklist-assistant/windows.png" width="25px"
+                                     height="25px;">
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" id="checklist-assistant-stuck-checklist-nav"
+                               data-bs-toggle="tab" href="#checklist-assistant-stuck-checklist" role="tab">
+                                <img data-bs-toggle="tooltip" data-bs-placement="right"
+                                     title="I'm st*ck, what the f*ck"
+                                     src="assets/icons/navbar/tab-5-checklist-assistant/stuck.png" width="25px"
+                                     height="25px;">
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="shell-assistant-tab-content">
+
+                        <div class="tab-pane fade active show" id="checklist-assistant-osint-checklist"
+                             role="tabpanel" style="min-height: 400px; max-height: 400px;">
+                            <div class="d-flex flex-column justify-content-between">
+
+                                <ul class="nav nav-tabs border-vscode-blue-bottom bg-code-3"
+                                    id="checklist-assistant-osint-checklist-tab" role="tablist">
+
+                                    <li class="nav-item">
+                                        <a class="btn nav-link" id="checklist-assistant-osint-check"
+                                           data-bs-toggle="tab"
+                                           href="#checklist-assistant-osint-check-content" role="tab">
+                                            <div class="d-flex justify-content-between">
+                                                <img data-bs-toggle="tooltip" data-bs-placement="right"
+                                                     title="OSINT checklist"
+                                                     src="assets/icons/navbar/tab-5-checklist-assistant/osint/web.png"
+                                                     width="25px" height="25px">
+                                            </div>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="btn nav-link" id="checklist-assistant-osint-dark-web-check"
+                                           data-bs-toggle="tab"
+                                           href="#checklist-assistant-osint-dark-web-check-content" role="tab">
+                                            <div class="d-flex justify-content-between">
+                                                <img data-bs-toggle="tooltip" data-bs-placement="right"
+                                                     title="Dark web OSINT checklist"
+                                                     src="assets/icons/navbar/tab-5-checklist-assistant/osint/dark-web.png"
+                                                     width="25px" height="25px">
+                                            </div>
+                                        </a>
+                                    </li>
+
+                                </ul>
+
+                                <div class="tab-content container-l2-custom">
+                                    <div class="tab-pane fade show active mt-1"
+                                         id="checklist-assistant-osint-check-content" role="tabpanel">
+
+                                        <div id="checklist-assistant-osint-container">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="tab-pane fade mt-1 h-100"
+                                         id="checklist-assistant-osint-dark-web-check-content" role="tabpanel">
+
+                                        <div id="checklist-assistant-osint-dark-web-container">
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="checklist-assistant-web-checklist"
+                             role="tabpanel" style="height: 485px">
+                            <div class="d-flex flex-column justify-content-between">
+
+                                <ul class="nav nav-tabs border-vscode-blue-bottom bg-code-3"
+                                    id="checklist-assistant-web-checklist-tab" role="tablist">
+
+                                    <li class="nav-item">
+                                        <a class="btn nav-link" id="checklist-assistant-protocol-general-check"
+                                           data-bs-toggle="tab"
+                                           href="#checklist-assistant-protocol-general-check-content" role="tab">
+                                            <div class="d-flex justify-content-between">
+                                                <img data-bs-toggle="tooltip" data-bs-placement="right"
+                                                     title="Protocol checklist (no http)"
+                                                     src="assets/icons/navbar/tab-5-checklist-assistant/protocols/protocols-checklist.png"
+                                                     width="25px" height="25px">
+                                            </div>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="btn nav-link" id="checklist-assistant-web-general-check"
+                                           data-bs-toggle="tab"
+                                           href="#checklist-assistant-web-general-check-content" role="tab">
+                                            <div class="d-flex justify-content-between">
+                                                <img data-bs-toggle="tooltip" data-bs-placement="right"
+                                                     title="Web general pentest checklist"
+                                                     src="assets/icons/navbar/tab-5-checklist-assistant/protocols/web-pentest-general.png"
+                                                     width="25px" height="25px">
+                                            </div>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="btn nav-link" id="checklist-assistant-web-api-check"
+                                           data-bs-toggle="tab"
+                                           href="#checklist-assistant-web-api-check-content" role="tab">
+                                            <div class="d-flex justify-content-between">
+                                                <img data-bs-toggle="tooltip" data-bs-placement="right"
+                                                     title="Web API checklist"
+                                                     src="assets/icons/navbar/tab-5-checklist-assistant/protocols/web-pentest-api.png"
+                                                     width="25px" height="25px">
+                                            </div>
+                                        </a>
+                                    </li>
+
+                                </ul>
+
+                                <div class="tab-content container-l2-custom">
+                                    <div class="tab-pane fade show active h-100 mt-1"
+                                         id="checklist-assistant-protocol-general-check-content" role="tabpanel">
+
+                                        <div id="checklist-assistant-protocol-general-container">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="tab-pane fade mt-1 h-100"
+                                         id="checklist-assistant-web-general-check-content" role="tabpanel">
+
+                                        <div id="checklist-assistant-web-pentest-general-container">
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="tab-pane fade mt-1 h-100"
+                                         id="checklist-assistant-web-api-check-content" role="tabpanel">
+
+                                        <div id="checklist-assistant-web-api-container">
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="checklist-assistant-linux-os-checklist" role="tabpanel"
+                             style="height: 485px">
+                            <div class="d-flex flex-column justify-content-between">
+
+                                <ul class="nav nav-tabs border-vscode-blue-bottom bg-code-3"
+                                    id="checklist-assistant-linux-privesc-tab" role="tablist">
+
+                                    <li class="nav-item">
+                                        <a class="btn nav-link" id="checklist-assistant-linux-privesc"
+                                           data-bs-toggle="tab" href="#checklist-assistant-linux-privesc-content"
+                                           role="tab">
+                                            <div class="d-flex justify-content-between">
+                                                <img data-bs-toggle="tooltip" data-bs-placement="right"
+                                                     title="Linux privilege escalation checklist"
+                                                     src="assets/icons/navbar/tab-5-checklist-assistant/privesc.png"
+                                                     width="25px" height="25px">
+                                            </div>
+                                        </a>
+                                    </li>
+
+                                </ul>
+
+                                <div class="tab-content container-l2-custom">
+                                    <div class="tab-pane fade show active h-100 mt-1"
+                                         id="checklist-assistant-linux-privesc-content" role="tabpanel">
+
+                                        <div id="checklist-assistant-linux-privesc-container">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="checklist-assistant-windows-os-checklist" role="tabpanel"
+                             style="height: 485px">
+                            <div class="d-flex flex-column justify-content-between">
+                                <ul class="nav nav-tabs border-vscode-blue-bottom bg-code-3"
+                                    id="checklist-assistant-windows-privesc-tab"
+                                    role="tablist">
+                                    <li class="nav-item">
+                                        <a class="btn nav-link" id="checklist-assistant-windows-privesc"
+                                           data-bs-toggle="tab" href="#checklist-assistant-windows-privesc-content"
+                                           role="tab">
+                                            <div class="d-flex justify-content-between">
+                                                <img data-bs-toggle="tooltip" data-bs-placement="right"
+                                                     title="Windows privilege escalation checklist"
+                                                     src="assets/icons/navbar/tab-5-checklist-assistant/privesc.png"
+                                                     width="25px" height="25px">
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="btn nav-link" id="checklist-assistant-windows-ad"
+                                           data-bs-toggle="tab" href="#checklist-assistant-windows-ad-content"
+                                           role="tab">
+                                            <div class="d-flex justify-content-between">
+                                                <img data-bs-toggle="tooltip" data-bs-placement="right"
+                                                     title="Windows active directory checklist"
+                                                     src="assets/icons/navbar/tab-5-checklist-assistant/windows/ad.png"
+                                                     width="25px" height="25px">
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="btn nav-link" id="checklist-assistant-windows-post-exploitation"
+                                           data-bs-toggle="tab"
+                                           href="#checklist-assistant-windows-post-exploitation-content"
+                                           role="tab">
+                                            <div class="d-flex justify-content-between">
+                                                <img data-bs-toggle="tooltip" data-bs-placement="right"
+                                                     title="Windows post-exploitation checklist"
+                                                     src="assets/icons/navbar/tab-5-checklist-assistant/windows/windows-post-exploitation.png"
+                                                     width="25px" height="25px">
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+
+                                <div class="tab-content container-l2-custom">
+
+                                    <div class="tab-pane fade show active mt-1"
+                                         id="checklist-assistant-windows-privesc-content" role="tabpanel">
+
+                                        <div id="checklist-assistant-windows-privesc-container">
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="tab-pane fade h-100 mt-1"
+                                         id="checklist-assistant-windows-ad-content" role="tabpanel">
+                                        <div id="checklist-assistant-windows-ad-container">
+
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane fade h-100 mt-1"
+                                         id="checklist-assistant-windows-post-exploitation-content" role="tabpanel">
+
+                                        <div id="checklist-assistant-windows-post-exploitation-container">
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="checklist-assistant-stuck-checklist" role="tabpanel"
+                             style="height: 485px">
+                            <div class="d-flex flex-column justify-content-between">
+                                <ul class="nav nav-tabs border-vscode-blue-bottom bg-code-3"
+                                    id="checklist-assistant-stuck-tab"
+                                    role="tablist">
+                                    <li class="nav-item">
+                                        <a class="btn nav-link" id="checklist-assistant-stuck"
+                                           data-bs-toggle="tab" href="#checklist-assistant-stuck-content"
+                                           role="tab">
+                                            <div class="d-flex justify-content-between">
+                                                <img data-bs-toggle="tooltip" data-bs-placement="right"
+                                                     title="general checklist 'I'm st*ck, what the f*ck'"
+                                                     src="assets/icons/navbar/tab-5-checklist-assistant/stuck.png"
+                                                     width="25px" height="25px">
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+
+                                <div class="tab-content container-l2-custom">
+
+                                    <div class="tab-pane fade show active mt-1"
+                                         id="checklist-assistant-stuck-content" role="tabpanel">
+
+                                        <div id="checklist-assistant-stuck-container">
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- tab 5 (checklist assistant) end -->
+
+                <!-- tab 6 (Useful commands) start -->
+                <div class="tab-pane fade" id="tab6">
+                    <!-- Nested tabs for Enum 6 -->
+                    <ul class="nav nav-tabs bg-code-4 border-0" id="useful-commands-tab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" id="useful-commands-command-converter-tab"
+                               data-bs-toggle="tab"
+                               href="#useful-commands-command-converter-content" role="tab">
+                                <img src="assets/icons/navbar/tab-6-useful-commands/command-converter.png" width="25px"
+                                     height="25px;" data-bs-toggle="tooltip" data-bs-placement="right"
+                                     title="Command converter">
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" id="useful-commands-linux-vs-windows-tab" data-bs-toggle="tab"
+                               href="#useful-commands-linux-vs-windows-content" role="tab">
+                                <img src="assets/icons/navbar/tab-6-useful-commands/linux-vs-windows.png" width="25px"
+                                     height="25px;" data-bs-toggle="tooltip" data-bs-placement="right"
+                                     title="Linux vs Windows commands">
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" id="useful-tools-pentesting-tab" data-bs-toggle="tab"
+                               href="#useful-tools-pentesting-content" role="tab">
+                                <img data-bs-toggle="tooltip" data-bs-placement="right"
+                                     title="Offensive pentesting tools & techniques explained"
+                                     src="assets/icons/navbar/tab-6-useful-commands/pentest-tools.png" width="25px"
+                                     height="25px;">
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" id="useful-commands-adds-tab" data-bs-toggle="tab"
+                               href="#useful-commands-adds-content" role="tab">
+                                <img data-bs-toggle="tooltip" data-bs-placement="right"
+                                     title="Offensive AD & Windows pentesting tools explained"
+                                     src="assets/icons/navbar/tab-6-useful-commands/AD.png" width="25px"
+                                     height="25px;">
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" id="useful-commands-adds-techniques-tab" data-bs-toggle="tab"
+                               href="#useful-commands-adds-techniques-content" role="tab">
+                                <img data-bs-toggle="tooltip" data-bs-placement="right"
+                                     title="AD pentesting techniques"
+                                     src="assets/icons/navbar/tab-6-useful-commands/AD-techniques.png" width="25px"
+                                     height="25px;">
+                            </a>
+                        </li>
+                        <li class="nav-item w-100">
+                            <!-- Your searchbar -->
+                            <div class="w-100 border-vscode-blue rounded" id="useful-commands-search-input">
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="useful-commands-tab-content">
+                        <!-- Command converter start -->
+                        <div class="tab-pane fade active show container-useful-commands"
+                             id="useful-commands-command-converter-content"
+                             role="tabpanel">
+                            <div class="mt-2 mb-2">
+                                <h4> Command converter </h4>
+                            </div>
+                            <div class="form-group mt-1">
+                                <span>Input</span>
+                                <!-- start textarea and copybutton-->
+                                <div class="position-relative d-flex">
+                                    <label for="useful-commands-command-converter-input"></label><textarea
+                                        id="useful-commands-command-converter-input" class="form-control"
+                                        style="width: 100%; padding-right: 40px; height:178px"
+                                        placeholder="bloodhound-python -v -u {{USERNAME}} -p '{{PASSWORD}}' -d {{DOMAIN}}.{{ROOTDNS}} -dc {{HOSTNAME}}.{{DOMAIN}}.{{ROOTDNS}} -ns {{NAMESERVER}} -c All"></textarea>
+                                    <a href="#">
+                                        <img class="copy-icon" src="assets/icons/general/copy.png"
+                                             style="position: absolute; bottom: 5px; right: 5px;" height="25px"
+                                             width="25px" alt="Copy">
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="form-group mt-1">
+                                <span>Output</span>
+                                <!-- start textarea and copybutton-->
+                                <div class="position-relative d-flex">
+                                    <label for="useful-commands-command-converter-output"></label><textarea
+                                        id="useful-commands-command-converter-output" class="form-control"
+                                        style="width: 100%; padding-right: 40px; height:178px" readonly
+                                        placeholder="bloodhound-python -v -u UserTest -p 'passwordTest' -d example.local -dc dc.example.local -ns 10.0.0.2 -c All"></textarea>
+                                    <a href="#">
+                                        <img class="copy-icon" src="assets/icons/general/copy.png"
+                                             style="position: absolute; bottom: 5px; right: 5px;" height="25px"
+                                             width="25px" alt="Copy">
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- command converter END -->
+
+                        <div class="tab-pane fade container-useful-commands"
+                             id="useful-commands-linux-vs-windows-content"
+                             role="tabpanel">
+                            <div class="mt-2 mb-2">
+                                <h4> Linux <small>vs</small> Windows </h4>
+                            </div>
+                            <div style="max-height: 400px; overflow-y: scroll"
+                                 id="list-useful-commands-linux-vs-windows">
+
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade container-useful-commands" id="useful-tools-pentesting-content"
+                             role="tabpanel">
+                            <div style="max-height: 450px; overflow-y: scroll">
+                                <div class="mb-2 mt-2">
+                                    <h4> Pentesting tools & techniques </h4>
+
+                                </div>
+                                <div id="list-useful-tools-pentesting">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade container-useful-commands" id="useful-commands-adds-content"
+                             role="tabpanel">
+                            <div>
+                                <div class="mt-2 mb-2">
+                                    <h4 class="useful-command-sync-time-explanation"> AD <small>&</small> Windows
+                                        pentesting tools
+                                    </h4>
+                                </div>
+                                <div style="max-height: 400px; overflow-y: scroll"
+                                     id="list-useful-commands-adds">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade container-useful-commands"
+                             id="useful-commands-adds-techniques-content" role="tabpanel">
+                            <div>
+                                <div class="mt-2 mb-2">
+                                    <h4 class="useful-command-sync-time-explanation"> AD pentesting techniques </h4>
+                                </div>
+                                <div style="max-height: 400px; overflow-y: scroll"
+                                     id="list-useful-ad-techniques">
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- tab 6 (Useful commands) end -->
+
+                <!-- tab 7 resources START -->
+                <div class="tab-pane fade" id="tab7">
+                    <!-- Nested tabs for Enum 7 -->
+                    <ul class="nav nav-tabs border-vscode-blue-bottom bg-code-4" id="resources-table-overview-tab"
+                        role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" id="resources-table-overview-tab-1"
+                               data-bs-toggle="tab"
+                               href="#resources-table-overview-content-1" role="tab">
+                                <img src="assets/icons/navbar/tab-7-resources/tab-7-resources.png" width="25px"
+                                     height="25px;" data-bs-toggle="tooltip" data-bs-placement="right"
+                                     title="Resources overview">
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="resources-table-overview">
+                        <div class="tab-pane fade active show container-l1-custom"
+                             id="resources-table-overview-content-1" role="tabpanel">
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                <h4>Resources overview</h4>
+                            </div>
+                            <!-- search input field for table START -->
+                            <div>
+                                <input type="text" id="search-resource-input" class="form-control w-100 mb-1"
+                                       placeholder="Search resources...">
+                            </div>
+                            <!-- table with resources START -->
+                            <div style="max-height: 400px; overflow-y: scroll;">
+                                <table class="table table-striped table-bordered rounded" id="resources-table">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Resource description</th>
+                                        <th>Link(s)</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="resources-table-body">
+                                    <!-- Content will be dynamically loaded -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- tab 7 resources END -->
+            </div>
+        </div>
+    </div>
+
+    <!-- modal container -->
+    <div id="modal-container">
+        <!-- Google dork modal START -->
+        <div class="modal fade static-modal" id="enum-tooling-google-dork-parameters" tabindex="-1"
+             aria-labelledby="enum-tooling-google-dork-parameters-label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered w-75">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="enum-tooling-google-dork-parameters-label">Google dork query
+                            builder</h5>
+                        <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-1" style="max-height: 400px; overflow-y:scroll;">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Google dork modal END -->
+
+        <!-- logo modal START -->
+        <div class="modal fade static-modal" id="logo-modal" tabindex="-1" aria-labelledby="terminal-modal-label"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered w-75">
+                <div class="modal-content bg-code-4"
+                     style="background: linear-gradient(90deg, #1c1c1c, #2a2c2d); color: #FFFFFF; font-family: 'Ubuntu Mono', monospace; border: 1px solid #005f99; padding: 0.25rem;">
+                    <div class="modal-header p-1" style="border-bottom: 1px solid #005f99;">
+                        <h5 class="modal-title" id="terminal-modal-label" style="text-shadow: 0 0 8px #005f99;">
+                            hm@terminal:~$
+                        </h5>
+                        <div class="d-flex justify-content-end mb-1">
+                            <a data-bs-toggle="modal"
+                               data-bs-placement="right"
+                               title="Fill in your pentest parameters. This will be used throughout the entire plugin for making custom commands."
+                               href="#pentest-parameters-modal"
+                               data-bs-target="#pentest-parameters-modal"
+                               data-bs-dismiss="modal">
+                                <button class="btn btn-sm btn-outline-custom" type="button" data-bs-dismiss="modal"
+                                        aria-label="Close">
+                                    Navigate to 'Hack-mate home'
+                                </button>
+                            </a>
+                        </div>
+
+                    </div>
+                    <div class="modal-body p-1 bg-code-2"
+                         style="color: #FFFFFF; font-family: 'Ubuntu Mono', monospace;">
+                        <div id="terminal-output"
+                             style="white-space: pre-line; height: 250px; overflow-y: auto; border: 1px solid #005f99; border-radius: 5px; font-family: consolas"
+                             class="p-1 bg-code-4"></div>
+                        <input class="mt-1 bg-code-4" id="terminal-input" type="text" placeholder="Type your command..."
+                               value="help" autofocus
+                               style="width: 100%; background: linear-gradient(90deg, #2a2c2d, #1c1c1c); color: #FFFFFF; border: 1px solid #005f99; padding: 0.5rem; outline: none; border-radius: 5px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- logo modal END -->
+
+        <!-- pentest-parameters modal START -->
+        <div class="modal fade static-modal" id="pentest-parameters-modal" tabindex="-1"
+             aria-labelledby="pentest-parameters-label"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered w-75">
+                <div class="modal-content"
+                     style="background: linear-gradient(90deg, #1c1c1c, #2a2c2d); color: #FFFFFF; font-family: 'Ubuntu Mono', monospace; border: 1px solid #005f99; padding: 0.25rem;">
+                    <div class="modal-header p-1" style="border-bottom: 1px solid #005f99;">
+                        <h5 class="modal-title" style="text-shadow: 0 0 8px #005f99;">
+                            Hack-mate home
+                        </h5>
+                        <div class="d-flex justify-content-end mb-1">
+                            <a data-bs-toggle="modal"
+                               data-bs-placement="right"
+                               title="Navigate to the interactive Hack-mate terminal."
+                               data-bs-target="#logo-modal"
+                               data-bs-dismiss="modal">
+                                <button class="btn btn-sm btn-outline-custom" type="button" data-bs-dismiss="modal"
+                                        aria-label="Close">
+                                    Navigate to hm@terminal:~$
+                                </button>
+                            </a>
+                        </div>
+
+                    </div>
+
+                    <!-- OLD -->
+                    <div class="modal-body mt-1"
+                         style="min-height: 375px">
+
+                        <!-- start -->
+                        <ul class="nav nav-tabs border-0 bg-code-4 d-flex justify-content-start"
+                            id="pentest-parameters-tab"
+                            role="tablist">
+                            <div class="w-50 d-flex justify-content-start">
+                                <li class="nav-item">
+                                    <a class="btn nav-link" id="pentest-parameters-general"
+                                       data-bs-toggle="tab" href="#pentest-parameters-general-content" role="tab">
+                                        <div class="d-flex justify-content-between">
+                                            <img data-bs-toggle="tooltip" data-bs-placement="right"
+                                                 title="General pentest parameters"
+                                                 src="assets/icons/general/pentest-parameters-general.png"
+                                                 width="25px" height="25px">
+                                        </div>
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="btn nav-link" id="pentest-parameters-AD"
+                                       data-bs-toggle="tab" href="#pentest-parameters-AD-content" role="tab">
+                                        <div class="d-flex justify-content-between">
+                                            <img data-bs-toggle="tooltip" data-bs-placement="right"
+                                                 title="Active Directory specific pentest parameters"
+                                                 src="assets/icons/general/pentest-parameters-AD.png"
+                                                 width="25px" height="25px">
+                                        </div>
+                                    </a>
+                                </li>
+                            </div>
+                            <div class="w-100 h-100 d-flex flex-column-reverse justify-content-center">
+                                <div class="w-100 h-100" id="cm-search-tab-general">
+
+                                </div>
+                            </div>
+                        </ul>
+
+                        <div class="tab-content scrollbar-visible mt-2"
+                             style="min-height: 275px; max-height: 275px; overflow-y: scroll">
+                            <div class="tab-pane fade show active h-100 mt-1" id="pentest-parameters-general-content"
+                                 role="tabpanel">
+                                <h6>
+                                    General pentest parameters
+                                </h6>
+                                <fieldset>
+                                    <div class="row g-2 align-items-end">
+                                        <!-- RHOST -->
+                                        <div class="col-sm-6">
+                                            <div class="mb-1">
+                                                <label for="pentest-parameters-RHOST" class="form-label">RHOST
+                                                    <img class="info-icon" src="assets/icons/general/info.png"
+                                                         width="15px" height="15px"
+                                                         data-bs-toggle="tooltip"
+                                                         data-bs-title="IP or hostname of the target machine. Example: 10.10.10.5 or target.htb">
+                                                </label>
+                                                <div class="w-100">
+                                                    <select id="pentest-parameters-RHOST" class="virtual-select-general"
+                                                            data-custom-object="true"
+                                                            name="native-select" placeholder="{{RHOST}}"
+                                                            data-search="true"
+                                                            data-allow-new-option="true">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- RPORT -->
+                                        <div class="col-sm-6">
+                                            <div class="mb-1">
+                                                <label for="pentest-parameters-RPORT" class="form-label">RPORT
+                                                    <img class="info-icon" src="assets/icons/general/info.png"
+                                                         width="15px" height="15px"
+                                                         data-bs-toggle="tooltip"
+                                                         data-bs-title="Open port on the target to interact with. Example: 80, 443, 8080">
+                                                </label>
+                                                <select id="pentest-parameters-RPORT" class="virtual-select-general"
+                                                        data-custom-object="true"
+                                                        name="native-select" placeholder="{{RPORT}}"
+                                                        data-search="true"
+                                                        data-allow-new-option="true">
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- LHOST -->
+                                        <div class="col-sm-6">
+                                            <div class="mb-1">
+                                                <label for="pentest-parameters-LHOST" class="form-label">LHOST
+                                                    <img class="info-icon" src="assets/icons/general/info.png"
+                                                         width="15px" height="15px"
+                                                         data-bs-toggle="tooltip"
+                                                         data-bs-title="Your attacking machine's IP address. Example: 192.168.49.100 or 10.10.14.3">
+                                                </label>
+                                                <select id="pentest-parameters-LHOST" class="virtual-select-general"
+                                                        data-custom-object="true"
+                                                        name="native-select" placeholder="{{LHOST}}"
+                                                        data-search="true"
+                                                        data-allow-new-option="true">
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- LPORT -->
+                                        <div class="col-sm-6">
+                                            <div class="mb-1">
+                                                <label for="pentest-parameters-LPORT" class="form-label">LPORT
+                                                    <img class="info-icon" src="assets/icons/general/info.png"
+                                                         width="15px" height="15px"
+                                                         data-bs-toggle="tooltip"
+                                                         data-bs-title="Port on your machine to receive connections. Example: 4444, 9001, 1337">
+                                                </label>
+                                                <select id="pentest-parameters-LPORT" class="virtual-select-general"
+                                                        data-custom-object="true"
+                                                        name="native-select" placeholder="{{LPORT}}"
+                                                        data-search="true"
+                                                        data-allow-new-option="true">
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="mb-1">
+                                                <label for="pentest-parameters-USERNAME" class="form-label">USERNAME
+                                                    <img class="info-icon" src="assets/icons/general/info.png"
+                                                         width="15px" height="15px"
+                                                         data-bs-toggle="tooltip"
+                                                         data-bs-title="Account name to authenticate with. For AD use the sAMAccountName. Example: jdoe or administrator">
+                                                </label>
+                                                <div class="w-100">
+                                                    <select id="pentest-parameters-USERNAME"
+                                                            class="virtual-select-general"
+                                                            data-custom-object="true"
+                                                            name="native-select" placeholder="{{USERNAME}}"
+                                                            data-search="true"
+                                                            data-allow-new-option="true">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- PASSWORD -->
+                                        <div class="col-sm-6">
+                                            <div class="mb-1">
+                                                <label for="pentest-parameters-PASSWORD" class="form-label">PASSWORD
+                                                    <img class="info-icon" src="assets/icons/general/info.png"
+                                                         width="15px" height="15px"
+                                                         data-bs-toggle="tooltip"
+                                                         data-bs-title="Cleartext password for the specified user. Example: P@ssw0rd!">
+                                                </label>
+                                                <div class="w-100">
+                                                    <select id="pentest-parameters-PASSWORD"
+                                                            class="virtual-select-general"
+                                                            data-custom-object="true"
+                                                            name="native-select" placeholder="{{PASSWORD}}"
+                                                            data-search="true"
+                                                            data-allow-new-option="true">
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- NIC -->
+                                        <div class="col-sm-6">
+                                            <div class="mb-1">
+                                                <label for="pentest-parameters-NIC" class="form-label">NIC
+                                                    <img class="info-icon" src="assets/icons/general/info.png"
+                                                         width="15px" height="15px"
+                                                         data-bs-toggle="tooltip"
+                                                         data-bs-title="Network interface to use for traffic. Example: tun0, eth0, ens33">
+                                                </label>
+                                                <select id="pentest-parameters-NIC" class="virtual-select-general"
+                                                        data-custom-object="true"
+                                                        name="native-select" placeholder="{{NIC}}"
+                                                        data-search="true"
+                                                        data-allow-new-option="true">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                            </div>
+
+                            <div class="tab-pane fade mt-1 h-100" id="pentest-parameters-AD-content" role="tabpanel">
+
+                                <h6>
+                                    Active Directory pentest parameters
+                                </h6>
+
+                                <fieldset>
+                                    <div class="row g-2 align-items-end">
+
+                                        <!-- DOMAIN -->
+                                        <div class="col-sm-6">
+                                            <div class="mb-1">
+                                                <label for="pentest-parameters-DOMAIN" class="form-label">Domain
+                                                    name
+                                                    <img class="info-icon" src="assets/icons/general/info.png"
+                                                         width="15px" height="15px"
+                                                         data-bs-toggle="tooltip"
+                                                         data-bs-title="NetBIOS or short name of the AD domain. Example: CORP, CONTOSO">
+                                                </label>
+                                                <select id="pentest-parameters-DOMAIN" class="virtual-select-general"
+                                                        data-custom-object="true"
+                                                        name="native-select" placeholder="{{DOMAIN}}"
+                                                        data-search="true"
+                                                        data-allow-new-option="true">
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- FQDN -->
+                                        <div class="col-sm-6">
+                                            <div class="mb-1">
+                                                <label for="pentest-parameters-ROOTDNS" class="form-label">Root
+                                                    DNS name
+                                                    <img class="info-icon" src="assets/icons/general/info.png"
+                                                         width="15px" height="15px"
+                                                         data-bs-toggle="tooltip"
+                                                         data-bs-title="Top-level DNS suffix of the domain. Example: local, com, internal">
+                                                </label>
+                                                <select id="pentest-parameters-ROOTDNS" class="virtual-select-general"
+                                                        data-custom-object="true"
+                                                        name="native-select" placeholder="{{ROOTDNS}}"
+                                                        data-search="true"
+                                                        data-allow-new-option="true">
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- HOSTNAME -->
+                                        <div class="col-sm-6">
+                                            <div class="mb-1">
+                                                <label for="pentest-parameters-HOSTNAME" class="form-label">Hostname
+                                                    <img class="info-icon" src="assets/icons/general/info.png"
+                                                         width="15px" height="15px"
+                                                         data-bs-toggle="tooltip"
+                                                         data-bs-title="Computer name of the target machine. Example: DC01, WS-PC023">
+                                                </label>
+                                                <select id="pentest-parameters-HOSTNAME" class="virtual-select-general"
+                                                        data-custom-object="true"
+                                                        name="native-select" placeholder="{{HOSTNAME}}"
+                                                        data-search="true"
+                                                        data-allow-new-option="true">
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- NAMESERVER -->
+                                        <div class="col-sm-6">
+                                            <div class="mb-1">
+                                                <label for="pentest-parameters-NAMESERVER" class="form-label">DNS
+                                                    Nameserver
+                                                    <img class="info-icon" src="assets/icons/general/info.png"
+                                                         width="15px" height="15px"
+                                                         data-bs-toggle="tooltip"
+                                                         data-bs-title="DNS server IP, typically the Domain Controller. Example: 10.10.10.5">
+                                                </label>
+                                                <select id="pentest-parameters-NAMESERVER"
+                                                        class="virtual-select-general"
+                                                        data-custom-object="true"
+                                                        name="native-select" placeholder="{{NAMESERVER}}"
+                                                        data-search="true"
+                                                        data-allow-new-option="true">
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6">
+                                            <div class="mb-1">
+                                                <label for="pentest-parameters-DOMAIN-SID" class="form-label">Domain
+                                                    SID
+                                                    <img class="info-icon" src="assets/icons/general/info.png"
+                                                         width="15px" height="15px"
+                                                         data-bs-toggle="tooltip"
+                                                         data-bs-title="Security Identifier of the domain, used in ticket attacks. Example: S-1-5-21-1987370270-658905905-1781884369">
+                                                </label>
+                                                <select id="pentest-parameters-DOMAIN-SID"
+                                                        class="virtual-select-general"
+                                                        data-custom-object="true"
+                                                        name="native-select" placeholder="{{DOMAIN-SID}}"
+                                                        data-search="true"
+                                                        data-allow-new-option="true">
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- HASH -->
+                                        <div class="col-sm-6">
+                                            <div class="mb-1">
+                                                <label for="pentest-parameters-HASH" class="form-label">Hash
+                                                    <img class="info-icon" src="assets/icons/general/info.png"
+                                                         width="15px" height="15px"
+                                                         data-bs-toggle="tooltip"
+                                                         data-bs-title="NTLM or other password hash for pass-the-hash attacks. Example: aad3b435b51404eeaad3b435b51404ee:e19ccf75ee54e06b06a5907af13cef42">
+                                                </label>
+                                                <select id="pentest-parameters-HASH" class="virtual-select-general"
+                                                        data-custom-object="true"
+                                                        name="native-select" placeholder="{{HASH}}"
+                                                        data-search="true"
+                                                        data-allow-new-option="true">
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- CA-NAME -->
+                                        <div class="col-sm-6">
+                                            <div class="mb-1">
+                                                <label for="pentest-parameters-CA-NAME" class="form-label">CA name
+                                                    <img class="info-icon" src="assets/icons/general/info.png"
+                                                         width="15px" height="15px"
+                                                         data-bs-toggle="tooltip"
+                                                         data-bs-title="Name of the AD Certificate Authority for ADCS attacks. Example: CORP-DC01-CA">
+                                                </label>
+                                                <select id="pentest-parameters-CA-NAME" class="virtual-select-general"
+                                                        data-custom-object="true"
+                                                        name="native-select" placeholder="{{CA-NAME}}"
+                                                        data-search="true"
+                                                        data-allow-new-option="true">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div class="w-100 mt-2">
+                            <button class="btn btn-sm btn-outline-custom w-100"
+                                    id="pentest-parameters-apply-changes">
+                                Update pentest parameters
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- pentest-parameters modal END -->
+
+        <!-- reserved for modals e.g.: code modals etc.-->
+    </div>
+</div>
+</body>
+
+
+<!-- general JS used over all tabs START -->
+<script src="assets/js/extension-message-manager.js"></script>
+<script src="assets/js/extension-utility-methods.js"></script>
+<script src="assets/js/extension-main.js"></script>
+<!-- general JS used over all tabs END -->
+
+<!-- tab specific script start -->
+<script src="assets/js/persistence/tabsPersistence.js"></script>
+<script src="assets/js/persistence/mutationObserver.js"></script>
+<script src="assets/js/persistence/accordionPersistence.js"></script>
+<script src="assets/js/persistence/modalPersistence.js"></script>
+
+<!-- TABS START -->
+<script src="assets/js/tabs/tab-1-general-tooling/tab-1-general-tooling.js"></script>
+<script src="assets/js/tabs/tab-2-enum-tooling/tab-2-enum-tooling.js"></script>
+<script src="assets/js/tabs/tab-3-exploit-assistant/xss/xss-payloads.js"></script>
+<script src="assets/js/tabs/tab-3-exploit-assistant/xss/xss-exploitation.js"></script>
+<script src="assets/js/tabs/tab-3-exploit-assistant/sqli/sqli-payloads.js"></script>
+<script src="assets/js/tabs/tab-3-exploit-assistant/sqli/sqli-exploitation.js"></script>
+<script src="assets/js/tabs/tab-3-exploit-assistant/ci-fi/ci-fi-payloads.js"></script>
+<script src="assets/js/tabs/tab-3-exploit-assistant/file-upload/file-upload-payloads.js"></script>
+<script src="assets/js/tabs/tab-3-exploit-assistant/forgery/ssrf-scripts.js"></script>
+<script src="assets/js/tabs/tab-3-exploit-assistant/tab-3-exploit-assistant.js"></script>
+<script src="assets/js/tabs/tab-4-shell-assistant/tab-4-shell-assistant.js"></script>
+<script src="assets/js/tabs/tab-4-shell-assistant/shells/shells.js"></script>
+<script src="assets/js/tabs/tab-5-checklist-assistant/tab-5-checklist-assistant.js"></script>
+<script src="assets/js/tabs/tab-5-checklist-assistant/checklist-ad.js"></script>
+<script src="assets/js/tabs/tab-5-checklist-assistant/checklist-osint.js"></script>
+<script src="assets/js/tabs/tab-5-checklist-assistant/checklist-linux-privesc.js"></script>
+<script src="assets/js/tabs/tab-5-checklist-assistant/checklist-windows-privesc.js"></script>
+<script src="assets/js/tabs/tab-5-checklist-assistant/checklist-windows-post-exploitation.js"></script>
+<script src="assets/js/tabs/tab-5-checklist-assistant/checklist-protocol-general.js"></script>
+<script src="assets/js/tabs/tab-5-checklist-assistant/checklist-web.js"></script>
+<script src="assets/js/tabs/tab-5-checklist-assistant/checklist-web-api.js"></script>
+<script src="assets/js/tabs/tab-5-checklist-assistant/checklist-stuck.js"></script>
+<script src="assets/js/tabs/tab-6-useful-commands/tab-6-useful-commands.js"></script>
+<script src="assets/js/tabs/tab-6-useful-commands/commands/linux-vs-windows.js"></script>
+<script src="assets/js/tabs/tab-6-useful-commands/commands/adds.js"></script>
+<script src="assets/js/tabs/tab-6-useful-commands/commands/ad-techniques.js"></script>
+<script src="assets/js/tabs/tab-6-useful-commands/commands/pentest-tools.js"></script>
+<script src="assets/js/tabs/tab-7-resources/tab-7-resources.js"></script>
+<script src="assets/js/tabs/tab-7-resources/resources.js"></script>
+<!-- TABS END -->
+
+</html>

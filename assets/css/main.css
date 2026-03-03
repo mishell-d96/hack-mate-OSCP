@@ -1,0 +1,316 @@
+:root {
+    --custom-black-gradient: linear-gradient(90deg, #1c1c1c, #2a2c2d); /* Slightly lighter black gradient */
+    --custom-hover-gradient: linear-gradient(90deg, #2a2c2d, #1c1c1c); /* Hover gradient reverse */
+    --custom-white: #FFFFFF;
+
+    /* VSCODE color palette */
+    --vscode-blue: #007acc;
+    --vscode-dark-1: #3e3e42;
+    --vscode-dark-2: #2d2d30;
+    --vscode-dark-3: #252526;
+    --vscode-dark-4: #1e1e1e;
+}
+
+/* Show vertical scrollbar only for pentest parameters */
+.scrollbar-visible {
+    scrollbar-width: thin; /* Firefox */
+    -ms-overflow-style: auto; /* IE and Edge */
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.scrollbar-visible::-webkit-scrollbar {
+    width: 4px;
+}
+
+.scrollbar-visible::-webkit-scrollbar:horizontal {
+    height: 0;
+    display: none;
+}
+
+.scrollbar-visible::-webkit-scrollbar-track {
+    background: #2a2a2a;
+    border-radius: 2px;
+}
+
+.scrollbar-visible::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 2px;
+    max-height: 50px;
+}
+
+.scrollbar-visible::-webkit-scrollbar-thumb:hover {
+    background: #777;
+}
+
+/* Hide scrollbars for all elements */
+* {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+
+    font-family: roboto;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    color: white;
+}
+
+/* Hide scrollbars for Webkit-based browsers (Chrome, Safari, etc.) */
+*::-webkit-scrollbar {
+    width: 0; /* No scrollbar width */
+    height: 0; /* No scrollbar height */
+    background: transparent; /* Make the background transparent */
+}
+
+/* Optional: Further remove any scrollbar background */
+*::-webkit-scrollbar-track {
+    background: none; /* No background for the scrollbar track */
+}
+
+*::-webkit-scrollbar-thumb {
+    background: none; /* No background for the scrollbar thumb */
+}
+
+/* make sure an iframe keeps the original styling settings */
+.form-select, .accordion-button::after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") !important;
+}
+
+#navbar-start {
+    border-right: 1px solid var(--vscode-blue);
+}
+
+nav-item {
+    border: 2px solid var(--vscode-blue) !important;
+}
+
+.table-container {
+    max-width: 100%;
+    max-height: 100%;
+    overflow-x: scroll; /* Enables horizontal scrolling */
+    overflow-y: scroll;
+}
+
+/* for block of numbers */
+td.hljs-ln-numbers {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    text-align: right;
+    color: #ccc;
+    vertical-align: top;
+    padding-right: 5px;
+
+    /* your custom style here */
+}
+
+
+input[type=checkbox]:checked {
+    background-color: var(--vscode-blue);
+}
+
+.border-vscode-blue {
+    border: 1px solid var(--vscode-blue) !important;
+}
+
+
+.border-vscode-blue-bottom {
+    border-bottom: 1px solid var(--vscode-blue) !important;
+}
+
+code {
+    padding-left: 10px !important;
+    background-color: var(--vscode-dark-4) !important;
+}
+
+textarea, select, #resources-table > thead > tr > th, #resources-table > tbody > tr > td, #terminal-input, #search-postmessage-input, #search-cookie-monitor-input, #search-keyword-input, #useful-commands-search-input, #search-resource-input {
+    background-color: var(--vscode-dark-4) !important;
+    color: var(--custom-white) !important;
+    border: 1px solid var(--vscode-blue) !important;
+}
+
+.modal-header {
+    background-color: var(--vscode-dark-2) !important;
+    border-bottom: 1px solid var(--vscode-blue) !important;
+}
+
+.modal-body {
+    background-color: var(--vscode-dark-2) !important;
+}
+
+.btn-outline-custom {
+    background-color: var(--vscode-dark-4) !important; /* Keep background transparent for outline effect */
+    color: var(--custom-white) !important; /* Darker neon blue text */
+    border: 1px solid var(--vscode-blue) !important; /* Darker neon blue outline */
+}
+
+.background-toast-header {
+    background-color: var(--vscode-dark-1) !important; /* Keep background transparent for outline effect */
+    color: var(--custom-white) !important; /* Darker neon blue text */
+    border: 1px solid var(--vscode-blue) !important; /* Darker neon blue outline */
+}
+
+.btn-outline-custom:hover {
+    background-color: var(--vscode-dark-2) !important; /* Use hover gradient */
+    color: var(--custom-white) !important; /* Darker neon blue text */
+    border-color: var(--vscode-blue) !important; /* Slightly lighter neon blue on hover */
+}
+
+@font-face {
+    font-family: roboto;
+    src: url("../../assets/fonts/roboto-regular.ttf");
+}
+
+@font-face {
+    font-family: roboto-headers;
+    src: url("../../assets/fonts/roboto-thin.ttf");
+}
+
+@font-face {
+    font-family: consolas;
+    src: url("../../assets/fonts/consolas.ttf")
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: roboto-headers;
+    z-index: 100;
+}
+
+a {
+    color: var(--vscode-blue) !important;
+}
+
+.consolas-text {
+    font-family: consolas;
+}
+
+textarea {
+    resize: none !important; /* Disable resizing */
+}
+
+.custom-text-small {
+    font-size: 11px;
+}
+
+.navbar-item-text-size {
+    font-size: 11px;
+}
+
+.bg-code-4 {
+    background: var(--vscode-dark-4) !important;
+}
+
+.bg-code-3 {
+    background: var(--vscode-dark-3) !important;
+}
+
+.bg-code-2 {
+    background: var(--vscode-dark-2) !important;
+}
+
+.bg-code-1 {
+    background: var(--vscode-dark-1) !important;
+}
+
+.active-link {
+    color: white !important;
+}
+
+.container-custom {
+    height: 100vh;
+    width: 100vw;
+
+    /* set a min height and width */
+    min-width: 750px;
+    min-height: 550px;
+
+    background-color: var(--vscode-dark-2);
+    color: white !important;
+}
+
+.sort-icon {
+    font-size: 0.8em; /* Adjust the size as needed */
+    margin-left: 5px; /* Adds some space between the header text and the icon */
+    cursor: pointer; /* Change cursor to pointer to indicate it's clickable */
+}
+
+.see-more {
+    color: var(--vscode-blue);
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.inactive-link {
+    pointer-events: none;
+    cursor: default;
+}
+
+ul {
+    padding-left: 0;
+    margin-left: 0;
+    list-style-type: none; /* Remove bullet points */
+}
+
+li {
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.container-l1-custom {
+    max-height: 490px;
+    min-height: 490px;
+    /*border: 1px solid greenyellow;*/
+    overflow-x: scroll;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensures even vertical spacing */
+}
+
+.container-l2-custom {
+    max-height: 449px;
+    min-height: 449px;
+    /*border: 1px solid white;*/
+    overflow-x: scroll;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensures even vertical spacing */
+}
+
+.container-useful-commands {
+    max-height: 453px;
+    min-height: 453px;
+    /*border: 1px solid white;*/
+    overflow-x: scroll;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensures even vertical spacing */
+}
+
+.btn-link {
+    color: var(--vscode-blue) !important;
+}
+
+.copy-icon-code {
+    height: 25px;
+    width: 25px;
+    position: absolute;
+    bottom: 13px;
+    right: 13px;
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background-color: var(--vscode-dark-4) !important;
+}
