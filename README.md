@@ -1,5 +1,11 @@
 # Hack-mate - your pentest assistant
-
+<p>
+  <img alt="Version" src="https://img.shields.io/badge/version-1.0-blue.svg?cacheSeconds=2592000&style=for-the-badge" />
+  <a href="https://addons.mozilla.org/nl/firefox/addon/hack-mate-oscp/" target="_blank">
+    <img alt="mozilla" src="https://img.shields.io/badge/Firefox-FF7139?style=for-the-badge&logo=Firefox-Browser&logoColor=white" />
+  </a>
+</p>
+      
 > Plugin knowledge level: **OSCP**
 
 Hack-mate is a browser plugin that offers over 35 functional tabs organized into seven main categories, covering general utilities (encoding/decoding, hashing, code highlighting), offensive tools (payloads, transfer methods, well-structured checklists, command references) and much much more.
